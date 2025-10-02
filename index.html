@@ -13,9 +13,10 @@
             var swiper = new Swiper(".mainSwiper", {
                 slidesPerView: 3,
                 spaceBetween: 10,
-                pagination: {
-                    el: ".swiper-pagination",
-                    clickable: true,
+                loop: true,
+                autoplay: {
+                    delay: 3000,
+                    disableOnInteraction: false,
                 },
                 navigation: {
                     nextEl: ".swiper-button-next",
@@ -29,12 +30,9 @@
                 },
             });
             var swiper = new Swiper(".recycleSwiper", {
-                slidesPerView: 1,
-                spaceBetween: 10,
-                pagination: {
-                    el: ".swiper-pagination",
-                    clickable: true,
-                },
+                slidesPerView: 5,
+                spaceBetween: 150,
+                loop: true,
                 navigation: {
                     nextEl: ".swiper-button-next",
                     prevEl: ".swiper-button-prev",
@@ -42,11 +40,20 @@
                 breakpoints: {
                     1024: {
                         slidesPerView: 5,
-                        spaceBetween: 50,
+                        spaceBetween: 150,
                     },
                 },
                 loop: true
             });
+            //월 코드 공부하기
+            let periodMonth = document.querySelector('.period span');
+            var now = new Date();	// 현재 날짜 및 시간
+            var month = now.getMonth();	// 월
+            var year = now.getFullYear(); //년
+            console.log("월 : ", month + 1);
+            console.log("년 : ", year);
+
+            periodMonth.innerHTML = month + 1 + '월'
         };
     </script>
 </head>
@@ -98,7 +105,7 @@
                             <img src="img/main_visual-02.jpg" alt="">
                         </div><!-- .swiper-slide end -->
                         <div class="swiper-slide">
-                            <img src="img/main_visual-03.jpeg" alt="">
+                            <img src="img/main_visual-03.jpg" alt="">
                         </div><!-- .swiper-slide end -->
                         <div class="swiper-slide">
                             <img src="img/main_visual-05.jpg" alt="">
@@ -106,7 +113,6 @@
                     </div><!-- .swiper-wrapper end -->
                     <div class="swiper-button-next"></div>
                     <div class="swiper-button-prev"></div>
-                    <div class="swiper-pagination"></div>
                 </div><!-- .mainSwiper end -->
             </div><!-- .inner end -->
         </section><!-- .main_visual end -->
@@ -394,7 +400,7 @@
                     </div><!-- .title end -->
                     <div class="text">
                         <div class="period">
-                            <strong>2025년 8월</strong>
+                            <strong>2025년 <span>8월</span></strong>
                         </div><!-- period end -->
                         <div class="total">
                             <p>총 <strong>503.721kg</strong> 의 자원을 되돌렸습니다.</p>
@@ -422,7 +428,7 @@
                                     <img src="img/recycle-02.png" alt="플라스틱">
                                 </div><!-- .image_wrap end -->
                                 <div class="text_wrap">
-                                    <h3>일반팩, 멸균팩</h3>
+                                    <h3>일반팩 / 멸균팩</h3>
                                     <p>128.7kg</p>
                                 </div><!-- .text_wrap end -->
                             </div><!-- .content_wrap end -->
@@ -430,7 +436,7 @@
                         <div class="swiper-slide">
                             <div class="content_wrap yellow">
                                 <div class="image_wrap">
-                                    <img src="img/recycle-05.png" alt="플라스틱">
+                                    <img src="img/recycle-06.png" alt="플라스틱">
                                 </div><!-- ..image_wrap end -->
                                 <div class="text_wrap">
                                     <h3>말린 원두가루</h3>
@@ -452,7 +458,7 @@
                         <div class="swiper-slide">
                             <div class="content_wrap red">
                                 <div class="image_wrap">
-                                    <img src="img/recycle-05.png" alt="플라스틱">
+                                    <img src="img/recycle-07.png" alt="플라스틱">
                                 </div><!-- .image_wrap end -->
                                 <div class="text_wrap">
                                     <h3>폐전선</h3>
@@ -474,7 +480,7 @@
                         <div class="swiper-slide">
                             <div class="content_wrap yellow">
                                 <div class="image_wrap">
-                                    <img src="img/recycle-05.png" alt="플라스틱">
+                                    <img src="img/recycle-08.png" alt="플라스틱">
                                 </div><!-- .image_wrap end -->
                                 <div class="text_wrap">
                                     <h3>도자기</h3>
@@ -485,7 +491,6 @@
                     </div><!-- .swiper-wrapper end -->
                     <div class="swiper-button-next"></div>
                     <div class="swiper-button-prev"></div>
-                    <div class="swiper-pagination"></div>
                 </div><!-- .recycleSwiper end -->
 
                 <div class="link">
@@ -502,22 +507,27 @@
                     <h2><span>쓰레기는 살림(Revival)이다</span><br />
                         알맹상점과 함께하는 살림</h2>
                 </div><!-- .title end -->
-                <div class="tab_menu">
-                    <button data-type="all" class="active">전체</button>
-                    <button data-type="notice">공지사항</button>
-                    <button data-type="event">이벤트</button>
-                    <button data-type="workshop">워크샵</button>
-                    <button data-type="campaign">캠페인</button>
-                    <button data-type="Monthly_trash">월간쓰레기</button>
-                    <button data-type="cafe">일회용없다방</button>
-                </div>
+
+                <div class="revival_header">
+                    <div class="tab_menu">
+                        <button data-type="all" class="active">전체</button>
+                        <button data-type="notice">공지사항</button>
+                        <button data-type="event">이벤트</button>
+                        <button data-type="workshop">워크샵</button>
+                        <button data-type="campaign">캠페인</button>
+                        <button data-type="Monthly_trash">월간쓰레기</button>
+                        <button data-type="cafe">일회용없다방</button>
+                    </div>
+                    <div class="nav_buttons">
+                        <div class="swiper-button-next"></div>
+                        <div class="swiper-button-prev"></div>
+                    </div><!-- .nav_buttons end -->
+                </div><!-- revival_header end -->
 
                 <div class="swiper revivalSwiper">
                     <div class="swiper-wrapper">
                         <!-- JS로 카드 삽입 -->
                     </div><!-- .swiper-wrapper -->
-                    <div class="swiper-button-next"></div>
-                    <div class="swiper-button-prev"></div>
                 </div><!-- .revivalSwiper end -->
             </div><!-- .revivalSwiper end -->
 
@@ -1048,61 +1058,101 @@
 
         <section class="faq">
             <div class="inner">
-            <div class="title">
-                <h2><span>FAQ</span><br/>
-                    자주 묻는 질문</h2>
-            </div><!-- .title end -->
+                <div class="title">
+                    <h2><span>FAQ</span><br />
+                        자주 묻는 질문</h2>
+                </div><!-- .title end -->
 
-            <div id="faq_wrap">
-                <div class="que">
-                    <span>알맹상점 세제, 화장품 리필 제품 정보가 궁금해요.</span>
-                    <div class="arrow_wrap">
-                        <img src="img/icon-down-02.svg" alt="" class="arrow_bottom">
-                        <img src="img/icon-top.svg" alt="" class="arrow_top">
-                    </div><!-- arrow_wrap end -->
-                </div><!-- .que end -->
+                <div id="faq_wrap">
+                    <div class="que">
+                        <span>알맹상점 세제, 화장품 리필 제품 정보가 궁금해요.</span>
+                        <div class="arrow_wrap">
+                            <img src="img/icon-down-02.svg" alt="" class="arrow_bottom">
+                            <img src="img/icon-top.svg" alt="" class="arrow_top">
+                        </div><!-- arrow_wrap end -->
+                    </div><!-- .que end -->
 
-                <div class="anw">
-                    <span>리스테이션 메뉴에서 전 품목 확인 가능합니다.
-                        알맹상점 블로그에도 자세히 정리되어 있으니 아래 주소에서 확인해주세요.
-                        - 알맹상점 망원점 화장품 리필 정보 https://blog.naver.com/almangmarket/222706391848
-                        - 알맹상점 망원점 식재료 리필 정보 https://blog.naver.com/almangmarket/222895800337
-                        - 알맹상점 망원점 세제 리필 정보 https://blog.naver.com/almangmarket/222700758473
-                    </span>
-                </div><!-- .anw end -->
-                <div class="que">
-                    <span>브리타 필터 재사용 방법에 대해서 알려주세요.</span>
-                </div><!-- .que end -->
-                <div class="anw">
-                    <span>아래 동영상을 보시고 셀프로 해킹해보세요. 자세히 설명해놓았습니다. 전동드릴과 날이 있다면 누구나 해킹 가능합니다. 단, 손조심! 리필 후 어떻게 세척하고 사용하는지
-                        방법도 담겨 있어요. 길쭉한 클래식 필터 리필방법, 그리고 뚜껑이 쉽게 열려 해킹이 쉬운 일렉트로맨 정수기 필터도 소개하였습니다.
-                        https://youtu.be/SOkDtmXnlYQ</span>
-                </div><!-- .anw end -->
-                <div class="que">
-                    <span>제로웨이스트 샵 창업을 하고 싶은데, 리필 가이드를 알고 싶어요.</span>
-                </div><!-- .que end -->
-                <div class="anw">
-                    <span>알맹상점 창업과 관련된 자세한 사항은 '알맹이만 팔아요, 알맹상점' 서적에 자세히 나와있습니다.
-                        내용 중 일부를 아래 링크로 공유드립니다.
-                        https://arborsday.github.io/Readium/?epub=epub_content/Almaeng_Refil_20221010
-                    </span>
-                </div><!-- .anw end -->
-                <div class="que">
-                    <span>판매하시는 물품 택배 배송은 안하시나요?</span>
-                </div><!-- .que end -->
-                <div class="anw">
-                    <span>리스테이션 메뉴에서 확인하실 수 있습니다.</span>
-                </div><!-- .anw end -->
-                <div class="que">
-                    <span>자원순환 커뮤니티 센터 택배 수거는 왜 안받으시나요?</span>
-                </div><!-- .que end -->
-                <div class="anw">
-                    <span>알맹상점 내 보관 공간이 부족하기 때문에 A4사이즈 쇼핑백 만큼만 수거하고, 택배는 받지 않습니다.
-                        알맹상점이 멀거나 양이 많다면 '에코야얼스'로 수거하시는 것을 추천합니다.
-                        '에코야얼스' 설치하기 > https://ecoyaearth.net/
-                    </span>
-                </div><!-- .anw end -->
-            </div><!-- #faq_wrap -->
+                    <div class="anw">
+                        <span>리스테이션 메뉴에서 전 품목 확인 가능합니다.
+                            알맹상점 블로그에도 자세히 정리되어 있으니 아래 주소에서 확인해주세요.</span>
+                        <div class="link">
+                            <a href="https://blog.naver.com/almangmarket/222706391848" target="_blank">알맹상점 망원점 화장품 리필
+                                정보</a>
+                            <a href="https://blog.naver.com/almangmarket/222895800337" target="_blank">알맹상점 망원점 식재료 리필
+                                정보</a>
+                            <a href="https://blog.naver.com/almangmarket/222700758473" target="_blank">알맹상점 망원점 세제 리필
+                                정보</a>
+                        </div><!-- .link end -->
+                    </div><!-- .anw end -->
+                    <div class="que">
+                        <span>브리타 필터 재사용 방법에 대해서 알려주세요.</span>
+                        <div class="arrow_wrap">
+                            <img src="img/icon-down-02.svg" alt="" class="arrow_bottom">
+                            <img src="img/icon-top.svg" alt="" class="arrow_top">
+                        </div><!-- arrow_wrap end -->
+                    </div><!-- .que end -->
+                    <div class="anw">
+                        <span>아래 동영상을 보시고 셀프로 해킹해보세요. 자세히 설명해놓았습니다. 전동드릴과 날이 있다면 누구나 해킹 가능합니다. 단, 손조심! 리필 후 어떻게 세척하고
+                            사용하는지 방법도 담겨 있어요.<br />
+                            길쭉한 클래식 필터 리필방법, 그리고 뚜껑이 쉽게 열려 해킹이 쉬운 일렉트로맨 정수기 필터도 소개하였습니다.
+                        </span>
+                        <div class="link">
+                            <a href="https://youtu.be/SOkDtmXnlYQ" target="_blank">영상 보러가기</a>
+                        </div><!-- .link end -->
+                    </div><!-- .anw end -->
+                    <div class="que">
+                        <span>제로웨이스트 샵 창업을 하고 싶은데, 리필 가이드를 알고 싶어요.</span>
+                        <div class="arrow_wrap">
+                            <img src="img/icon-down-02.svg" alt="" class="arrow_bottom">
+                            <img src="img/icon-top.svg" alt="" class="arrow_top">
+                        </div><!-- arrow_wrap end -->
+                    </div><!-- .que end -->
+                    <div class="anw">
+                        <span>알맹상점 창업과 관련된 자세한 사항은 '알맹이만 팔아요, 알맹상점' 서적에 자세히 나와있습니다.
+                            내용 중 일부를 아래 링크로 공유드립니다.
+                            <div class="link">
+                                <a href="https://arborsday.github.io/Readium/?epub=epub_content/Almaeng_Refil_20221010" target="_blank">가이드 보러가기</a>
+                            </div><!-- .link end -->
+                        </span>
+                    </div><!-- .anw end -->
+                    <div class="que">
+                        <span>판매하시는 물품 택배 배송은 안하시나요?</span>
+                        <div class="arrow_wrap">
+                            <img src="img/icon-down-02.svg" alt="" class="arrow_bottom">
+                            <img src="img/icon-top.svg" alt="" class="arrow_top">
+                        </div><!-- arrow_wrap end -->
+                    </div><!-- .que end -->
+                    <div class="anw">
+                        <span>알맹상점은 쓰레기로 인한 탄소배출을 줄이기 위해 온라인 판매를 하지 않고 있습니다.
+                            하지만 쓰레기를 줄이는 다양한 제품을 개별 포장 없이 들여오기 어려운 점을 누구보다 알고 있기에<br/>
+                            소비자 반응이 좋았던 제품, 개별 포장 없이 소량으로 구입하기 힘든 제품, 신박한 제로웨이스트 제품 등을 기준으로
+                            도매몰을 운영하게 되었습니다. 조금 더 쉽고 개별 포장 없는 제품들만 엄선하여<br/>
+                            유통상 발생하는 비닐, 플라스틱 등의 쓰레기를 줄이고자 했습니다. 도매몰이기에 사업자전용으로 운영되어 일반 소비자 분들에게 오픈되지 않는 점 양해 부탁드립니다.<br/>
+
+                            오프라인에서 판매하는 제품 리스트는 '리스테이션' 메뉴에서 확인하실 수 있습니다.
+                        </span>
+                        <div class="link">
+                            <a href="" target="_blank">알맹상점 도매몰 이동하기</a>
+                            <a href="" target="_blank">알맹상점 도매몰 안내사항</a>
+                            <a href="" target="_blank">알맹상점 오프라인 판매 제품 알아보기</a>
+                        </div><!-- .link end -->
+                    </div><!-- .anw end -->
+                    <div class="que">
+                        <span>자원순환 커뮤니티 센터 택배 수거는 왜 안받으시나요?</span>
+                        <div class="arrow_wrap">
+                            <img src="img/icon-down-02.svg" alt="" class="arrow_bottom">
+                            <img src="img/icon-top.svg" alt="" class="arrow_top">
+                        </div><!-- arrow_wrap end -->
+                    </div><!-- .que end -->
+                    <div class="anw">
+                        <span>알맹상점 내 보관 공간이 부족하기 때문에 A4사이즈 쇼핑백 만큼만 수거하고, 택배는 받지 않습니다.
+                            알맹상점이 멀거나 양이 많다면 '에코야얼스'로 수거하시는 것을 추천합니다.
+                            <div class="link">
+                                <a href="https://ecoyaearth.net/" target="_blank">'에코야얼스' 설치하기</a>
+                            </div><!-- .link end  -->
+                        </span>
+                    </div><!-- .anw end -->
+                </div><!-- #faq_wrap -->
             </div><!-- .inner end -->
 
             <script src="https://code.jquery.com/jquery-latest.min.js"></script>
@@ -1117,9 +1167,46 @@
     </main><!-- main end -->
 
     <footer class="footer">
-        <div class="bt_logo">
-            <img src="img/logo.svg" alt="하단로고">
-        </div><!-- .bt_logo end -->
+        <div class="inner">
+            <div class="info_wrap">
+                <div class="bt_logo">
+                    <a href="#"><img src="img/logo.svg" alt="하단로고"></a>
+                </div><!-- .bt_logo end -->
+                <ul>
+                    <li>쓰레기를 줄이는 작은 마음들의 플랫폼, 알맹상점</li>
+                    <li>zero@almang.net</li>
+                    <li>사업자등록번호 (주) 알리(망원) 155 81 02836</li>
+                </ul>
+
+
+                <div class="service_wrap">
+                    <ul class="service">
+                        <li><a href="#">이용약관</a></li>
+                        <li><a href="#">개인정보보호정책</a></li>
+                        <li><a href="#">이용안내</a></li>
+                    </ul><!-- .service end -->
+
+                    <p>Copyright ©알맹상점. All Rights Reserved.</p>
+
+                </div><!-- .service_wrap end -->
+            </div><!-- .info_wrap end -->
+
+            <nav class="footer_nav">
+                <ul class="gnb">
+                    <li><a href="#" class="depth-01">리스테이션</a></li>
+                    <li><a href="#" class="depth-01">스케줄</a></li>
+                    <li><a href="#" class="depth-01">단체</a></li>
+                    <li><a href="#" class="depth-01">알짜매거진</a></li>
+                    <li><a href="#" class="depth-01">제로웨이스트 지도</a></li>
+                </ul><!-- .gnb end -->
+
+                <ul class="sns">
+                    <li><a href="#">INSTAGRAM</a></li>
+                    <li><a href="#">BLOG</a></li>
+                    <li><a href="#">YOUTUBE</a></li>
+                </ul><!-- .sns end -->
+            </nav><!-- .footer_nav -->
+        </div><!-- .inner end -->
     </footer><!-- .footer end -->
 </body>
 
