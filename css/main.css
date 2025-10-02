@@ -577,7 +577,7 @@ body {
 .revival_header .nav_buttons {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 50px;
     margin-bottom: 20px;
 }
 
