@@ -36,7 +36,7 @@
                 autoplay: {
                     delay: 3000,
                     disableOnInteraction: false,
-                    centeredSlides:true
+                    centeredSlides: true
                 },
                 navigation: {
                     nextEl: ".swiper-button-next",
@@ -89,6 +89,53 @@
                 cursor.style.left = mouseX + 'px';
                 cursor.style.top = mouseY + 'px';
             });
+
+            /* 각 자리별로 따로 카운트업 */
+            function countingType3(num) {
+                const element = document.querySelector('#number3');
+                const arrayNum = String(num).split(''); // ["5","0","3",".","7","2","1"]
+                let current = [];
+
+                for (let i = 0; i <= 10; i++) {
+                    setTimeout(() => {
+                        current = arrayNum.map((n) => {
+                            if (n === '.') return '.'; // 소수점은 그대로
+                            return i <= n ? i : n;     // 각 자리 비교해서 올려감
+                        });
+
+                        element.textContent = current.join('');
+                    }, 300 * i); // 속도 조절 (100ms 단위)
+                }
+            }
+
+            // ===== 섹션 진입 감지해서 1번만 실행 =====
+            (function setupRecycleObserver() {
+                const recycleSection = document.querySelector('.recycle');
+                const targetNumber = '503.721';
+                let played = false; // 이미 실행했는지 체크
+
+                if (!recycleSection) return;
+
+                const observer = new IntersectionObserver(
+                    (entries, obs) => {
+                        entries.forEach(entry => {
+                            // 화면에 충분히 들어왔을 때 (40% 정도 보일 때)
+                            if (entry.isIntersecting && !played) {
+                                played = true;
+                                countingType3(targetNumber);
+                                obs.unobserve(recycleSection); // 더 이상 감지 안 함
+                            }
+                        });
+                    },
+                    {
+                        threshold: 0.4, // 섹션의 40% 이상 보이면 트리거
+                        rootMargin: '0px 0px -80px 0px'
+                        // 헤더 높이 때문에 살짝 일찍/자연스럽게 트리거되도록 여유
+                    }
+                );
+
+                observer.observe(recycleSection);
+            })();
         };
     </script>
 </head>
@@ -204,10 +251,10 @@
                             알맹상점을 소개합니다</h2>
                     </div><!-- .title end -->
                     <div class="image_wrap tablet">
-                        <img src="img/brand-info-01.png" alt="" class="shape circle">
-                        <img src="img/brand-info-02.png" alt="" class="shape rounded">
-                        <img src="img/brand-info-03.png" alt="" class="shape triangle">
-                        <img src="img/brand-info-04.png" alt="" class="shape blob">
+                        <img src="img/brand-info-05.png" alt="" class="shape circle">
+                        <img src="img/brand-info-06.png" alt="" class="shape rounded">
+                        <img src="img/brand-info-07.png" alt="" class="shape triangle">
+                        <img src="img/brand-info-08.png" alt="" class="shape blob">
                     </div><!-- .image_wrap end -->
                     <div class="text_wrap">
                         <div class="text tablet">
@@ -480,7 +527,7 @@
                             <strong>2025년 <span>8월</span></strong>
                         </div><!-- period end -->
                         <div class="total">
-                            <p>총 <strong>503.721kg</strong> 의 자원을 되돌렸습니다.</p>
+                            <p>총 <strong id="number3">000.000</strong>kg 의 자원을 되돌렸습니다.</p>
                         </div><!-- .total end -->
                     </div><!-- .text end -->
                 </div><!-- .title_wrap end -->
@@ -1264,8 +1311,8 @@
     <footer class="footer">
         <div class="inner">
             <div class="bt_logo tablet">
-                    <a href="#"><img src="img/logo.svg" alt="하단로고"></a>
-                </div><!-- .bt_logo end -->
+                <a href="#"><img src="img/logo.svg" alt="하단로고"></a>
+            </div><!-- .bt_logo end -->
             <div class="info_wrap">
                 <div class="bt_logo pc">
                     <a href="#"><img src="img/logo.svg" alt="하단로고"></a>
