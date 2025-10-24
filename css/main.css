@@ -413,8 +413,13 @@ body {
     flex-direction: column;
     gap: 40px;
 }
+.recycle .inner .title{
+    position: relative;
+    display: block;
+}
 .recycle .inner .title h2{
     position: relative;
+    display: inline-block;
 }
 .recycle .inner .title h2::before {
     content: '';
@@ -422,7 +427,7 @@ body {
     width: 8px;
     height: 8px;
     position: absolute;
-    left: 770px;
+    left: 15px;
     top: 0;
 }
 
@@ -432,7 +437,7 @@ body {
     width: 8px;
     height: 8px;
     position: absolute;
-    left: 810px;
+    left: 60px;
     top: 0;
 }
 
@@ -443,13 +448,13 @@ body {
 
 .recycle .inner .recycleSwiper {
     margin-top: 80px;
-    height: 500px;
     overflow: hidden;
     margin: 0 auto;
+    padding: 50px 0;
 }
-
-.recycle .inner .recycleSwiper .swiper-wrapper {}
-
+.recycle .inner .recycleSwiper .swiper-slide{
+    padding: 40px 0;
+}
 .recycle .content_wrap {
     width: 100%;
     height: 100%;
@@ -458,6 +463,7 @@ body {
     justify-content: center;
     align-items: center;
     transition: transform 0.3s ease;
+    padding: 60px 0;
 }
 
 .recycle .content_wrap.red {
@@ -1472,17 +1478,22 @@ body {
     .recycle {
         background: url('../img/recycle-bg.png') center center / cover no-repeat;
     }
+    .recycle .inner .title{
+        position: relative;
+        display: block;
+    }
     .recycle .inner .title h2{
         position: relative;
+        display: inline-block;
     }
     .recycle .inner .title h2::before{
         position: absolute;
-        left: 565px;
+        left: 11px;
         top: 0;
     }                                                                                                   
     .recycle .inner .title h2::after{
         position: absolute;
-        left: 600px;
+        left: 46px;
         top: 0;
     }
     .recycle .inner .title_wrap .text {
@@ -2049,12 +2060,12 @@ body {
     .recycle .inner .title h2::before{
         width: 5px;
         height: 5px;
-        left: 290px;
+        left: 8px;
     }
     .recycle .inner .title h2::after{
         width: 5px;
         height: 5px;
-        left: 310px;
+        left: 28px;
     }
     .recycle .inner .title_wrap .text {
         font-size: 16px;
