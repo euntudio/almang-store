@@ -1229,6 +1229,11 @@ body {
     }
 
 }
+@media screen and (max-width: 1645px) {
+    .brand_info .inner .text_wrap .info-links{
+        font-size: 19px;
+    }
+}
 
 @media screen and (max-width: 1550px) {
     .recycle .recycleSwiper .swiper-wrapper {
@@ -1528,8 +1533,10 @@ body {
     }
 
     .recycle .inner .recycleSwiper {
-        margin-top: 80px;
+        margin-top: 30px;
         height: 500px;
+        position: relative;
+        
     }
 
     .recycle .content_wrap {
@@ -2032,9 +2039,11 @@ body {
         border: 1px solid #000;
     }
     .recycle .inner .recycleSwiper{
+        height: 300px;
         margin-top: 0px;
     }
     .recycle .inner .recycleSwiper .swiper-wrapper {
+        width: 100%;
         position: relative;
     }
     .recycle .inner .title h2::before{
