@@ -1,0 +1,1357 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>알맹상점</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script>
+        window.onload = () => {
+            var swiper = new Swiper(".mainSwiper", {
+                slidesPerView: 1,
+                spaceBetween: 0,
+                loop: true,
+                autoplay: {
+                    delay: 3000,
+                    disableOnInteraction: false,
+                },
+                navigation: {
+                    nextEl: ".swiper-button-next",
+                    prevEl: ".swiper-button-prev",
+                },
+                breakpoints: {
+                    1024: {
+                        slidesPerView: 1,
+                        spaceBetween: 0,
+                    },
+                },
+            });
+            var swiper = new Swiper(".recycleSwiper", {
+                slidesPerView: 3,
+                spaceBetween: 50,
+                loop: true,
+                autoplay: {
+                    delay: 3000,
+                    disableOnInteraction: false,
+                    centeredSlides: true
+                },
+                navigation: {
+                    nextEl: ".swiper-button-next",
+                    prevEl: ".swiper-button-prev",
+                },
+                breakpoints: {
+                    375: {
+                        slidesPerView: 3,
+                        spaceBetween: 60,
+                    },
+                    768: {
+                        slidesPerView: 3,
+                        spaceBetween: 130,
+                    },
+                    1460: {
+                        slidesPerView: 5,
+                        spaceBetween: 110,
+                    },
+                },
+            });
+            //월 코드 공부하기
+            let periodMonth = document.querySelector('.period span');
+            var now = new Date();	// 현재 날짜 및 시간
+            var month = now.getMonth();	// 월
+            var year = now.getFullYear(); //년
+            console.log("월 : ", month + 1);
+            console.log("년 : ", year);
+
+            periodMonth.innerHTML = month + 1 + '월'
+
+            //nav_tablet
+            document.querySelector('.nav_btn').addEventListener('click', () => {
+                document.querySelector('.nav_tablet').classList.add('active');
+            });
+
+            document.querySelector('.close_btn').addEventListener('click', () => {
+                document.querySelector('.nav_tablet').classList.remove('active');
+            });
+
+            //cursor
+            document.addEventListener('mousemove', (e) => {
+                let mouseX = e.pageX + 10; // document의 x좌표값
+                let mouseY = e.pageY + 10; // document의 y좌표값
+
+                let cursor = document.querySelector('.cursor');
+                cursor.style.left = mouseX + 'px';
+                cursor.style.top = mouseY + 'px';
+            });
+
+            /* 각 자리별로 따로 카운트업 */
+            function countingType3(num) {
+                const element = document.querySelector('#number3');
+                const arrayNum = String(num).split(''); // ["5","0","3",".","7","2","1"]
+                let current = [];
+
+                for (let i = 0; i <= 10; i++) {
+                    setTimeout(() => {
+                        current = arrayNum.map((n) => {
+                            if (n === '.') return '.'; // 소수점은 그대로
+                            return i <= n ? i : n;     // 각 자리 비교해서 올려감
+                        });
+
+                        element.textContent = current.join('');
+                    }, 300 * i); // 속도 조절 (100ms 단위)
+                }
+            }
+
+            // ===== 섹션 진입 감지해서 1번만 실행 =====
+            (function setupRecycleObserver() {
+                const recycleSection = document.querySelector('.recycle');
+                const targetNumber = '503.721';
+                let played = false; // 이미 실행했는지 체크
+
+                if (!recycleSection) return;
+
+                const observer = new IntersectionObserver(
+                    (entries, obs) => {
+                        entries.forEach(entry => {
+                            // 화면에 충분히 들어왔을 때 (40% 정도 보일 때)
+                            if (entry.isIntersecting && !played) {
+                                played = true;
+                                countingType3(targetNumber);
+                                obs.unobserve(recycleSection); // 더 이상 감지 안 함
+                            }
+                        });
+                    },
+                    {
+                        threshold: 0.4, // 섹션의 40% 이상 보이면 트리거
+                        rootMargin: '0px 0px -80px 0px'
+                        // 헤더 높이 때문에 살짝 일찍/자연스럽게 트리거되도록 여유
+                    }
+                );
+
+                observer.observe(recycleSection);
+            })();
+        };
+    </script>
+</head>
+
+<body>
+    <header class="header">
+        <div class="inner">
+            <h1 class="logo">
+                <a href="#">
+                    <img src="img/logo.svg" alt="알맹상점">
+                </a>
+            </h1><!-- .logo end -->
+
+            <nav class="nav pc">
+                <ul class="gnb">
+                    <li><a href="#" class="depth-01">리스테이션</a></li>
+                    <li><a href="#" class="depth-01">스케줄</a></li>
+                    <li><a href="#" class="depth-01">단체</a></li>
+                    <li><a href="#" class="depth-01">알짜매거진</a></li>
+                    <li><a href="#" class="depth-01">제로웨이스트 지도</a></li>
+                </ul><!-- .gnb end -->
+
+                <button class="nav_btn tablet">
+                    <img src="img/icon-menu.svg" alt="메뉴열기">
+                </button>
+
+                <div class="icon">
+                    <img src="img/icon-profile.svg" alt="로그인" class="log-in">
+                    <img src="img/icon-search.svg" alt="검색" class="search">
+                </div><!-- .icon end -->
+            </nav><!-- .nav end -->
+
+            <nav class="nav_tablet tablet">
+                <button class="close_btn">
+                    <img src="img/icon-close.svg" alt="메뉴닫기">
+                </button>
+                <ul class="gnb tablet">
+                    <li><a href="#" class="depth-01">리스테이션</a></li>
+                    <li><a href="#" class="depth-01">스케줄예약</a></li>
+                    <li><a href="#" class="depth-01">단체</a></li>
+                    <li><a href="#" class="depth-01">알짜게시판</a></li>
+                    <li><a href="#" class="depth-01">제로웨이스트 지도</a></li>
+                </ul><!-- .gnb end -->
+
+            </nav>
+
+        </div><!-- .inner end -->
+    </header><!-- .header end -->
+
+    <main class="main">
+        <section class="main_visual">
+            <div class="inner">
+                <div class="main_text">
+                    <h2>@STORE</h2>
+                    <P>알맹상점은<br />
+                        제로웨이스트 커뮤니티 형성을 중심으로<br />
+                        지속가능한 삶을 기대합니다.<br />
+                        우리는 당신의 ‘용기’를 환영합니다.</P>
+                </div><!-- .main_text end -->
+
+                <!-- swiper-slide -->
+                <div class="swiper mainSwiper">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide">
+                            <img src="img/main_visual-01.jpg" alt="">
+                        </div><!-- .swiper-slide end -->
+                        <div class="swiper-slide">
+                            <img src="img/main_visual-02.jpg" alt="">
+                        </div><!-- .swiper-slide end -->
+                        <div class="swiper-slide">
+                            <img src="img/main_visual-03.jpg" alt="">
+                        </div><!-- .swiper-slide end -->
+                        <div class="swiper-slide">
+                            <img src="img/main_visual-05.jpg" alt="">
+                        </div><!-- .swiper-slide end -->
+                    </div><!-- .swiper-wrapper end -->
+                    <div class="swiper-button-next"></div>
+                    <div class="swiper-button-prev"></div>
+                </div><!-- .mainSwiper end -->
+            </div><!-- .inner end -->
+        </section><!-- .main_visual end -->
+
+        <div class="slide-text">
+            <ul>
+                <li>껍데기는 가고</li>
+                <li>🌏</li>
+                <li>알맹이만 오라</li>
+                <li>🍀</li>
+                <li>껍데기는 가고</li>
+                <li>🌏</li>
+                <li>알맹이만 오라</li>
+                <li>🍀</li>
+                <li>껍데기는 가고</li>
+                <li>🌏</li>
+                <li>알맹이만 오라</li>
+                <li>🍀</li>
+                <li>껍데기는 가고</li>
+                <li>🌏</li>
+                <li>알맹이만 오라</li>
+                <li>🍀</li>
+                <li>껍데기는 가고</li>
+                <li>🌏</li>
+                <li>알맹이만 오라</li>
+                <li>🍀</li>
+            </ul>
+        </div><!-- .slide-text end -->
+
+        <section class="brand_info">
+            <div class="inner">
+                <div class="title_wrap">
+                    <div class="title">
+                        <h2><span>지속가능한 삶을 위해 나아가는</span><br />
+                            알맹상점을 소개합니다</h2>
+                    </div><!-- .title end -->
+                    <div class="image_wrap tablet">
+                        <img src="img/brand-info-05.png" alt="" class="shape circle">
+                        <img src="img/brand-info-06.png" alt="" class="shape rounded">
+                        <img src="img/brand-info-07.png" alt="" class="shape triangle">
+                        <img src="img/brand-info-08.png" alt="" class="shape blob">
+                    </div><!-- .image_wrap end -->
+                    <div class="text_wrap">
+                        <div class="text tablet">
+                            <p>
+                                알맹상점은 2018년 망원시장에서 쓰지 않는 장바구니를 모아<br />
+                                ‘용기 내’ 알맹이만 사려고 노력하던 <strong>알맹이만 찾는 자 ‘알짜’들의 모임</strong>에서<br />
+                                시작된 <strong>각종 세제, 화장품, 차와 원두, 향신료를 판매</strong>하는 <strong><br />국내 최초 리필스테이션</strong>입니다.
+                            </p>
+                            <p>
+                                상점 내 <strong>‘자연순환 커뮤니티 회수 센터’ 운영</strong>으로 재활용 체계에서<br />
+                                버려지는 물품을 수거받는 알맹상점은 <strong>환경 문제 해결을<br />시민 참여 방식</strong>으로 풀어내고 있습니다.
+                            </p>
+                        </div><!-- .text end -->
+                        <div class="text mobile">
+                            <p>
+                                알맹상점은 2018년 망원시장에서<br />쓰지 않는 장바구니를 모아<br />
+                                ‘용기 내’ 알맹이만 사려고 노력하던<br /><strong>알맹이만 찾는 자 ‘알짜’들의 모임</strong>에서
+                                시작된<br /><strong>각종 세제, 화장품, 차와 원두, 향신료를 판매</strong>하는<br /><strong>국내 최초
+                                    리필스테이션</strong>입니다.
+                            </p>
+                            <p>
+                                상점 내 <strong>‘자연순환 커뮤니티 회수 센터’ 운영</strong>으로<br />재활용 체계에서
+                                버려지는 물품을 수거받는<br />알맹상점은 <strong>환경 문제 해결을<br />시민 참여 방식</strong>으로 풀어내고 있습니다.
+                            </p>
+                        </div><!-- .text end -->
+                        <ul class="info-links">
+                            <li><a href="#">📍 알맹상점 매장위치</a></li>
+                            <li><a href="#">📍 가까운 제로웨이스트 샵</a></li>
+                            <li><a href="#">📰 알맹레터 구독</a></li>
+                        </ul><!-- .info-links end -->
+                    </div><!-- .text_wrap end  -->
+                </div><!-- .title_wrap end -->
+
+                <div class="image_wrap pc">
+                    <img src="img/brand-info-01.png" alt="" class="shape circle">
+                    <img src="img/brand-info-02.png" alt="" class="shape rounded">
+                    <img src="img/brand-info-03.png" alt="" class="shape triangle">
+                    <img src="img/brand-info-04.png" alt="" class="shape blob">
+                </div><!-- .image_wrap end -->
+            </div><!-- .inner end -->
+        </section><!-- .brand_info end -->
+
+        <section class="philosophy">
+            <div class="inner">
+                <div class="title tablet">
+                    <h2><span>알맹상점의</span><br />
+                        알맹이 철학</h2>
+                </div><!-- .title end -->
+                <div class="title_wrap">
+                    <div class="title pc">
+                        <h2><span>알맹상점의</span><br />
+                            알맹이 철학</h2>
+                    </div><!-- .title end -->
+                    <div class="text_wrap">
+                        <div class="text">
+                            <p>
+                                쓰레기를 줄이는 작은 마음들의 플랫폼 <strong>‘알맹상점’</strong>
+                            </p>
+                            <p>
+                                ‘알맹상점’은 쓰레기를 ‘0’으로 만드는 <strong>‘제로 웨이스트’</strong>와<br />
+                                버려진 물건을 새활용하는 <strong>‘리사이클링’</strong>을 추구합니다.
+                            </p>
+                            <p>
+                                껍데기는 줄이고, 알맹이만 남기는 <strong>지속 가능한 삶은<br />
+                                    ‘쓰레기를 줄이고 플라스틱을 고쳐쓰는 것’에서부터 시작</strong>합니다.<br />
+                                알맹상점과 함께 생활 속에서 작은 것부터 실천해가요.
+                            </p>
+                        </div><!-- .text end  -->
+
+                        <ul class="link">
+                            <li><a href="#">🍀 알맹상점 리스테이션 구경하기</a></li>
+                            <li><a href="#">💁‍♀️ 도슨트 · 교육 · 워크샵 예약하기</a></li>
+                        </ul><!-- .link end -->
+                    </div><!-- .text_wrap end -->
+                </div><!-- .title_wrap end -->
+
+                <div id="container"></div>
+
+                <!-- path cdn -->
+                <script src="https://cdn.jsdelivr.net/npm/pathseg@1.2.1/pathseg.js"></script>
+                <script src="https://cdn.jsdelivr.net/npm/poly-decomp@0.3.0/build/decomp.min.js"></script>
+
+                <!-- matter.js cdn -->
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.17.1/matter.js"></script>
+                <script>
+                    // 📕보통 matter.js에서 패스를 지정할 때 쓴다.
+                    const reactangle =
+                        "m.26,274.72c-1.79-20.16,5.77-40.86,22.2-55.17L256.07,16.09c27.25-23.73,68.58-20.88,92.31,6.37,23.73,27.25,20.88,68.58-6.37,92.31l-233.61,203.46c-27.25,23.73-68.58,20.88-92.31-6.37-9.42-10.82-14.66-23.86-15.83-37.14Z";
+                    const curved =
+                        "m341.46,31.89c14.51,28.65,3.05,63.65-25.6,78.16-3.42,1.73-34.78,17.16-83.49,26.15-28.57,5.27-57.68,7.34-86.51,6.14-36.13-1.5-71.89-8.14-106.28-19.74C9.15,112.33-7.2,79.34,3.07,48.9,13.33,18.47,46.33,2.12,76.77,12.39c101.89,34.37,185.72-5.68,186.54-6.1,28.65-14.51,63.65-3.05,78.16,25.6Z";
+
+                    // 📕--- 초기 세팅 ---
+                    const Engine = Matter.Engine,
+                        World = Matter.World,
+                        Bodies = Matter.Bodies;
+                    Body = Matter.Body;
+                    Composites = Matter.Composites;
+                    Common = Matter.Common;
+                    Vertices = Matter.Vertices;
+                    Svg = Matter.Svg;
+                    Composite = Matter.Composite;
+                    // --- 초기 세팅 ---
+
+                    // 📕Engine.create() 함수를 사용하여 Matter.js 엔진을 생성한다.
+                    const engine = Engine.create();
+                    // 📕렌더링할 컨테이너 역할 부분의 id를 가져온다.(getElementById)
+                    const container = document.getElementById("container");
+
+                    // 📕Matter.Render.create() 함수를 사용하여 시각적인 렌더링을 담당하는 객체를 생성한다.
+                    const renderer = Matter.Render.create({
+                        element: container, // 렌더러가 그릴 HTML요소를 지정해준다.
+                        engine: engine, // 렌더러에 사용될 Matter.js 엔진을 지정해준다.
+                        options: {
+                            // 커스텀 옵션들을 설정해준다.
+                            width: container.offsetWidth,
+                            height: container.offsetHeight,
+                            wireframes: false, //wireframe 여부
+                            background: "#fff",
+                        },
+                    });
+
+                    // 📕경계 벽 생성하는 부분 (순서대로 왼쪽, 오른쪽, 아래이다. isStatic은 바디를 정적으로 만들어 물리 시뮬레이션에 영향을 주지 않도록 한다.)
+                    // 🧐 여기선 왜 위쪽 벽을 설정하지 않았을까? -> 떨어지는 효과를 나타내야하기 때문이다.
+                    const walls = [
+                        Bodies.rectangle(0, 0, 1, container.offsetHeight * 2, {
+                            isStatic: true,
+                            render: {
+                                visible: false,   // ← 보이지 않게
+                            },
+                        }),
+                        Bodies.rectangle(
+                            container.offsetWidth,
+                            0,
+                            1,
+                            container.offsetHeight * 2,
+                            {
+                                isStatic: true,
+                                render: {
+                                    visible: false,
+                                },
+                            }
+                        ),
+                        Bodies.rectangle(
+                            0,
+                            container.offsetHeight,
+                            container.offsetWidth * 2,
+                            1,
+                            {
+                                isStatic: true,
+                                render: {
+                                    visible: false,
+                                },
+                            }
+                        ),
+                    ];
+
+                    // 📕물리적 특성을 설정하는 객체인 physics를 정의한다.
+                    const physics = {
+                        restitution: 0.7, // 복원력 또는 탄성력 (0~1 사이에 지정해줌. 1에 가까워질 수록 충돌 후 빠르게 원래 형태로 돌아간다.)
+                        friction: 0.4, // 마찰 계수 (0~1 사이에 지정해줌. 1에 가까워질 수록 강한 마찰이 발생한다.)
+                    };
+
+                    // 도넛모양 생성하는 부분인 듯!
+                    const createCircle = (width, color, x, y) => {
+                        const outerCircle = Bodies.circle(x, y, width, {
+                            ...physics,
+                            render: {
+                                fillStyle: color,
+                            },
+                        });
+                        const innerCircle = Bodies.circle(x, y, width / 2.5, {
+                            ...physics,
+                            render: {
+                                fillStyle: "#eee7e0",
+                            },
+                        });
+
+                        return Body.create({
+                            parts: [outerCircle, innerCircle],
+                        });
+                    };
+
+                    // 소세지모양 생성하는 부분인듯!
+                    const createSvgElement = (path, color, scale, x, y, angle) => {
+                        pathElement = document.createElementNS(
+                            "http://www.w3.org/2000/svg",
+                            "path"
+                        );
+                        pathElement.setAttribute("d", path);
+                        const vertices = Svg.pathToVertices(pathElement, 3);
+                        vertices.forEach((vertical) => {
+                            const i = vertices.findIndex(
+                                (v) => v.x === vertical.x && v.y === vertical.y
+                            );
+
+                            if (i !== -1) {
+                                vertices.splice(i, 1);
+                            }
+                        });
+                        const body = Bodies.fromVertices(
+                            x,
+                            y,
+                            vertices,
+                            {
+                                ...physics,
+                                render: {
+                                    fillStyle: color,
+                                    strokeStyle: color,
+                                    lineWidth: "1px",
+                                },
+                            },
+                            true
+                        );
+
+                        Body.scale(body, 1, 1);
+                        Body.setAngle(body, angle);
+
+                        return body;
+                    };
+
+                    // 모양 생성하는 함수를 바탕으로 요소들을 생성해주는 부분인듯
+
+                    const elements = [
+                        createSvgElement(curved, "#583d91", 1, 250, -400, 30),
+                        createSvgElement(reactangle, "#eb5c48", 1, 450, -400, 50),
+                        createCircle(115, "#9a3d90", 500, -400),
+                        createSvgElement(curved, "#583d91", 1, 700, -400, 50),
+                        createCircle(135, "#eb5c48", 1150, -200),
+                        createSvgElement(curved, "#583d91", 1, 1460, -400, 200),
+
+                        createSvgElement(curved, "#583d91", 1, 1300, -700, 300),
+                        createSvgElement(reactangle, "#fab71a", 1, 1600, -700, 100),
+
+                        createCircle(115, "#fab71a", 100, -900),
+                        createSvgElement(curved, "#eb5c48", 1, 250, -900, 250),
+                        createCircle(135, "#fab71a", 600, -900),
+                        createSvgElement(curved, "#eb5c48", 1, 1500, -900, 100),
+                    ];
+
+                    // 📕MouseConstraint은 마우스 입력을 기반으로 물리 시뮬레이션에 영향을 주는 제약(Constraint)을 제공한다.
+                    const mouseConstraint = Matter.MouseConstraint.create(engine, {
+                        element: container,
+                        constraint: {
+                            stiffness: 0.2, // 제어의 강도 또는 강성(stiffness)을 나타내는 값 (낮을수록 유연)
+                            render: {
+                                visible: false, // 제어 요소(마우스)의 가시성 여부
+                            },
+                        },
+                    });
+
+                    // 📕World.add()로 물리 엔진 세계에 다양한 물체들을 추가(배열 안에 설정해놓은 변수들을 펼침연산자로 추가한다.)
+                    World.add(engine.world, [...walls, mouseConstraint, ...elements]);
+                    // 📕Engine.run()로 Matter.js 엔진을 실행
+                    Engine.run(engine);
+
+                    // 📕Render.run()호출하여 렌더러 실행
+                    Matter.Render.run(renderer);
+                </script>
+            </div><!-- .inner end -->
+        </section><!-- .philosophy end -->
+
+        <section class="recycle">
+            <div class="inner">
+                <div class="title_wrap">
+                    <div class="title">
+                        <h2>알맹상점이 순환한 자원</h2>
+                    </div><!-- .title end -->
+                    <div class="text">
+                        <div class="period">
+                            <strong>2025년 <span>8월</span></strong>
+                        </div><!-- period end -->
+                        <div class="total">
+                            <p>총 <strong id="number3">000.000</strong>kg 의 자원을 되돌렸습니다.</p>
+                        </div><!-- .total end -->
+                    </div><!-- .text end -->
+                </div><!-- .title_wrap end -->
+
+                <!-- Swiper -->
+                <div class="swiper recycleSwiper">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide">
+                            <div class="content_wrap red">
+                                <div class="image_wrap">
+                                    <img src="img/recycle-01.png" alt="플라스틱">
+                                </div><!-- .image_wrap end -->
+                                <div class="text_wrap">
+                                    <h3>PP / PE / 작은 플라스틱</h3>
+                                    <p>74.1kg</p>
+                                </div><!-- .text_wrap end -->
+                            </div><!-- .content_wrap end -->
+                        </div><!-- .swiper-slide end -->
+                        <div class="swiper-slide">
+                            <div class="content_wrap blue">
+                                <div class="image_wrap">
+                                    <img src="img/recycle-02.png" alt="플라스틱">
+                                </div><!-- .image_wrap end -->
+                                <div class="text_wrap">
+                                    <h3>일반팩 / 멸균팩</h3>
+                                    <p>128.7kg</p>
+                                </div><!-- .text_wrap end -->
+                            </div><!-- .content_wrap end -->
+                        </div><!-- .swiper-slide end -->
+                        <div class="swiper-slide">
+                            <div class="content_wrap yellow">
+                                <div class="image_wrap">
+                                    <img src="img/recycle-06.png" alt="플라스틱">
+                                </div><!-- ..image_wrap end -->
+                                <div class="text_wrap">
+                                    <h3>말린 원두가루</h3>
+                                    <p>17.69kg</p>
+                                </div><!-- .text_wrap end -->
+                            </div><!-- .content_wrap end -->
+                        </div><!-- .swiper-slide end -->
+                        <div class="swiper-slide">
+                            <div class="content_wrap green">
+                                <div class="image_wrap">
+                                    <img src="img/recycle-05.png" alt="플라스틱">
+                                </div><!-- .image_wrap end -->
+                                <div class="text_wrap">
+                                    <h3>브리타</h3>
+                                    <p>70.6kg</p>
+                                </div><!-- .text_wrap end -->
+                            </div><!-- .content_wrap -->
+                        </div><!-- .swiper-slide end -->
+                        <div class="swiper-slide">
+                            <div class="content_wrap red">
+                                <div class="image_wrap">
+                                    <img src="img/recycle-07.png" alt="플라스틱">
+                                </div><!-- .image_wrap end -->
+                                <div class="text_wrap">
+                                    <h3>폐전선</h3>
+                                    <p>57.3kg</p>
+                                </div><!-- .text_wrap end -->
+                            </div><!-- .content_wrap -->
+                        </div><!-- .swiper-slide end -->
+                        <div class="swiper-slide">
+                            <div class="content_wrap blue">
+                                <div class="image_wrap">
+                                    <img src="img/recycle-03.png" alt="플라스틱">
+                                </div><!-- .image_wrap end -->
+                                <div class="text_wrap">
+                                    <h3>폐토너 / 카트리지</h3>
+                                    <p>11.6kg</p>
+                                </div><!-- .text_wrap end -->
+                            </div><!-- .content_wrap -->
+                        </div><!-- .swiper-slide end -->
+                        <div class="swiper-slide">
+                            <div class="content_wrap yellow">
+                                <div class="image_wrap">
+                                    <img src="img/recycle-08.png" alt="플라스틱">
+                                </div><!-- .image_wrap end -->
+                                <div class="text_wrap">
+                                    <h3>도자기</h3>
+                                    <p>18kg</p>
+                                </div><!-- .text_wrap end -->
+                            </div><!-- .content_wrap end -->
+                        </div><!-- .swiper-slide end -->
+                    </div><!-- .swiper-wrapper end -->
+                    <div class="swiper-btn">
+                        <div class="swiper-button-next"></div>
+                        <div class="swiper-button-prev"></div>
+                    </div><!-- .swiper-btn end -->
+                </div><!-- .recycleSwiper end -->
+
+                <div class="link">
+                    <a href="#">
+                        근처 자원순환 수거센터 찾기
+                    </a>
+                </div><!-- .link end -->
+            </div><!-- .inner end -->
+        </section><!-- .recycle end -->
+
+        <section class="revival">
+            <div class="inner">
+                <div class="title">
+                    <h2><span>쓰레기는 살림(Revival)이다</span><br />
+                        알맹상점과 함께하는 살림</h2>
+                    <div class="nav_buttons tablet">
+                        <div class="swiper-button-next"></div>
+                        <div class="swiper-button-prev"></div>
+                    </div><!-- .nav_buttons end -->
+                </div><!-- .title end -->
+
+                <div class="revival_header">
+                    <div class="tab_menu">
+                        <button data-type="all" class="active">전체</button>
+                        <button data-type="notice">공지사항</button>
+                        <button data-type="event">이벤트</button>
+                        <button data-type="workshop">워크샵</button>
+                        <button data-type="campaign">캠페인</button>
+                        <button data-type="Monthly_trash">월간쓰레기</button>
+                        <button data-type="cafe">일회용없다방</button>
+                    </div>
+                    <div class="nav_buttons pc">
+                        <div class="swiper-button-next"></div>
+                        <div class="swiper-button-prev"></div>
+                    </div><!-- .nav_buttons end -->
+                </div><!-- revival_header end -->
+
+                <div class="swiper revivalSwiper">
+                    <div class="swiper-wrapper">
+                        <!-- JS로 카드 삽입 -->
+                    </div><!-- .swiper-wrapper -->
+                </div><!-- .revivalSwiper end -->
+            </div><!-- .revivalSwiper end -->
+
+            <script>
+                // 카테고리별 데이터
+                const slideData = {
+                    notice: [
+                        {
+                            img: "img/re-notice-01.png",
+                            title: "공지사항",
+                            text: "2025 추석연휴 휴무안내 (10/5(일)~8(수) 4일간 휴무)",
+                            date: "2025-09-29",
+                            link: "#"
+                        },
+                        {
+                            img: "img/revival-01.png",
+                            title: "공지사항",
+                            text: "2024년 쓰레기 수거와 리필로 줄인 온실가스! 제로웨이스트 가게의 존재 이유",
+                            date: "2025-03-03",
+                            link: "#"
+                        },
+                        {
+                            img: "img/revival-02.png",
+                            title: "공지사항",
+                            text: "도자기 재사용컵을 일시 중단합니다. (별도 공지시까지)",
+                            date: "2025-08-26",
+                            link: "#"
+                        },
+                        {
+                            img: "img/revival-03.png",
+                            title: "공지사항",
+                            text: "[자원순환] 알맹상점이 멀고 양이 많다면, '에코야얼쓰'에 보내세용 😀",
+                            date: "2023-08-30",
+                            link: "#"
+                        },
+                        {
+                            img: "img/re-notice-02.png",
+                            title: "공지사항",
+                            text: "927 기후정의행진; 기후정의로 광장을 잇자!",
+                            date: "2025-09-29",
+                            link: "#"
+                        },
+                        {
+                            img: "img/re-notice-03.png",
+                            title: "공지사항",
+                            text: "👣알맹지기랑 927기후정의행진 갈 파티원 구함(0/10)",
+                            date: "2025-09-13",
+                            link: "#"
+                        },
+                        {
+                            img: "img/re-notice-04.png",
+                            title: "공지사항",
+                            text: "2025. 9.24 - 9.26 대한민국 ESG 친환경대전 @코엑스 / 리필스테이션을 운영합니다",
+                            date: "2025-09-10",
+                            link: "#"
+                        },
+                        {
+                            img: "img/re-notice-05.png",
+                            title: "공지사항",
+                            text: "9/16 까지 흰색 티셔츠 수거해요 (레인보우니팅클럽!)",
+                            date: "2025-09-06",
+                            link: "#"
+                        },
+                        {
+                            img: "img/re-notice-06.png",
+                            title: "공지사항",
+                            text: "민생회복쿠폰, 알맹상점에서 사용하시면 이런 혜택이!",
+                            date: "2025-07-23",
+                            link: "#"
+                        }
+                    ],
+                    event: [
+                        {
+                            img: "img/re-event-01.png",
+                            title: "이벤트",
+                            text: "7/2-7/4 순환경제페스티발 @마곡 코엑스, 리필스테이션으로 찾아갑니다!",
+                            date: "2024-05-19",
+                            link: "#"
+                        },
+                        {
+                            img: "img/re-event-02.png",
+                            title: "이벤트",
+                            text: "우산 천 새활용 제품들, 설문 참여하고 리워드!",
+                            date: "2024-05-19",
+                            link: "#"
+                        },
+                        {
+                            img: "img/re-event-03.png",
+                            title: "이벤트",
+                            text: "6월 한달 동안 녹색소비주간, 리필을 덤으로 더 드립니다:)",
+                            date: "2024-05-19",
+                            link: "#"
+                        },
+                        {
+                            img: "img/re-event-04.png",
+                            title: "이벤트",
+                            text: "6.20-21 (금, 토) 서울시 공익활동지원센터에서 리필스테이션과 일회용없다방이 열립니다!",
+                            date: "2024-05-19",
+                            link: "#"
+                        },
+                        {
+                            img: "img/re-event-05.png",
+                            title: "이벤트",
+                            text: "환경을 담은 우리 동네 가게 스탬프 투어! [4월21일~5월11일]",
+                            date: "2024-05-19",
+                            link: "#"
+                        },
+                        {
+                            img: "img/re-event-06.png",
+                            title: "이벤트",
+                            text: "[모집마감][체험단 모집]아세즈 제품 2종, 아꾸아 선크림 제품 체험해보실 분~?(~6/18 신청) 🌿",
+                            date: "2024-05-19",
+                            link: "#"
+                        },
+                        {
+                            img: "img/re-event-07.png",
+                            title: "이벤트",
+                            text: "[팝업] 지구를 구하장 : 아주 보통의 하루🌸",
+                            date: "2024-05-19",
+                            link: "#"
+                        },
+                        {
+                            img: "img/re-event-08.png",
+                            title: "이벤트",
+                            text: "서울역점 세탁망 증정 이벤트!",
+                            date: "2024-05-19",
+                            link: "#"
+                        }
+                    ],
+                    workshop: [
+                        {
+                            img: "img/re-workshop-01.png",
+                            title: "워크샵",
+                            text: "패스트패션의 대안, 슬로패션! '재니들'의 자투리천 소품 팝업전",
+                            date: "2025-04-13",
+                            link: "#"
+                        },
+                        {
+                            img: "img/re-event-07.png",
+                            title: "워크샵",
+                            text: "[팝업] 지구를 구하장 : 아주 보통의 하루🌸",
+                            date: "2025-03-14",
+                            link: "#"
+                        },
+                        {
+                            img: "img/re-workshop-02.png",
+                            title: "워크샵",
+                            text: "화장품 용기 탄소발자국 계산 워크숍 (기후변화행동연구소 X 알맹상점)",
+                            date: "2025-04-13",
+                            link: "#"
+                        },
+                        {
+                            img: "img/re-workshop-04.png",
+                            title: "워크샵",
+                            text: "내 모든 것의 탄소발자국 : 무겁고 크고 재활용 노답인 화장품 용기 수거해요~",
+                            date: "2024-10-22",
+                            link: "#"
+                        },
+                        {
+                            img: "img/re-workshop-05.png",
+                            title: "워크샵",
+                            text: "[서울역] 생활기술 클래스 빗자루 만들기 워크숍 (10/12, 토요일)",
+                            date: "2024-10-01",
+                            link: "#"
+                        },
+                        {
+                            img: "img/re-workshop-06.png",
+                            title: "워크샵",
+                            text: "[10/5 토요일] 지속가능한 미식을 위한 워크샵, 장소: 곰손",
+                            date: "2024-09-27",
+                            link: "#"
+                        },
+                        {
+                            img: "img/re-workshop-07.png",
+                            title: "워크샵",
+                            text: "10.17~19일 서울시공익활동지원센터에 알맹상점이 리필 비건존으로 찾아갑니다!",
+                            date: "2024-09-19",
+                            link: "#"
+                        },
+                        {
+                            img: "img/re-workshop-08.png",
+                            title: "워크샵",
+                            text: "패스트패션의 대안, 슬로패션! '재니들'의 자투리천 소품 팝업전",
+                            date: "2025-04-13",
+                            link: "#"
+                        },
+                    ],
+                    campaign: [
+                        {
+                            img: "img/re-campaign-01.png",
+                            title: "캠페인",
+                            text: "수라 갯벌을 지키기 위해 엽서 쓰기 함께 해요!",
+                            date: "2025-04-22",
+                            link: "#"
+                        },
+                        {
+                            img: "img/re-campaign-02.png",
+                            title: "캠페인",
+                            text: "떠들고 말하고 요구하고 투표하고! #기후묻다 ✊✊ 우리의 목소리를 모읍니다!",
+                            date: "2025-04-09",
+                            link: "#"
+                        },
+                        {
+                            img: "img/re-campaign-03.png",
+                            title: "캠페인",
+                            text: "[레버재단x알맹상점 캠페인] 환경을 담은 우리 동네 가게 스탬프 여행에 초대합니다 (--3/14))",
+                            date: "2025-02-05",
+                            link: "#"
+                        },
+                        {
+                            img: "img/re-campaign-04.png",
+                            title: "캠페인",
+                            text: "[팻말 들기] 탄핵가결 풍선 날리기, 나만 불편해?",
+                            date: "2024-12-15",
+                            link: "#"
+                        },
+                        {
+                            img: "img/re-campaign-05.png",
+                            title: "캠페인",
+                            text: "[국제협약] 플라스틱 문제를 끝내기 위해, 부산으로 가는 길",
+                            date: "2024-10-25",
+                            link: "#"
+                        },
+                        {
+                            img: "img/re-campaign-06.png",
+                            title: "캠페인",
+                            text: "알맹상점 X 보틀클럽 : 다회용기 리필하고 탄소중립포인트 받으세요!",
+                            date: "2024-10-03",
+                            link: "#"
+                        },
+                        {
+                            img: "img/re-campaign-07.png",
+                            title: "캠페인",
+                            text: "[행사 종료!] 세계 채식인의 날 맞이 알맹러 비건 요리 뽐내기 대회!",
+                            date: "2024-09-21",
+                            link: "#"
+                        },
+                        {
+                            img: "img/re-campaign-08.png",
+                            title: "캠페인",
+                            text: "줄리안 님과 함께! 기후위기의 모든 것을 게임으로 알아보세요!",
+                            date: "2024-09-12",
+                            link: "#"
+                        }
+                    ],
+                    Monthly_trash: [
+                        {
+                            img: "img/re-trash-01.png",
+                            title: "캠페인",
+                            text: "고장난 우산을 수거해요:) 2025년 8월 31일까지~",
+                            date: "2025-07-10",
+                            link: "#"
+                        },
+                        {
+                            img: "img/re-trash-02.png",
+                            title: "캠페인",
+                            text: "깨진 컵과 그릇 등 도자기로 만든 예술! 아누의 폐도자기 예술!",
+                            date: "2025-07-04",
+                            link: "#"
+                        },
+                        {
+                            img: "img/re-trash-03.png",
+                            title: "캠페인",
+                            text: "멸균팩, 우유팩은 어디로 가나요? - 에코야얼스, ㈜에이치알엠의 청주 선별공장 탐방기!",
+                            date: "2025-06-06",
+                            link: "#"
+                        },
+                        {
+                            img: "img/re-trash-04.png",
+                            title: "캠페인",
+                            text: "2단 3단 우산 수거 시작합니다! (한시적 수거) '수리상점곰손'에서 수리할께요~",
+                            date: "2025-03-09",
+                            link: "#"
+                        },
+                        {
+                            img: "img/re-trash-05.png",
+                            title: "캠페인",
+                            text: "쓰레기 없는 마라톤 행사 #무해런 에 사용될 자원 3.9(일)까지 수거🏃",
+                            date: "2025-02-17",
+                            link: "#"
+                        },
+                        {
+                            img: "img/re-trash-06.png",
+                            title: "캠페인",
+                            text: "2024년 10월 자원순환결산 부산 플라스틱국제협약 행진하러 가요",
+                            date: "2024-11-20",
+                            link: "#"
+                        },
+                        {
+                            img: "img/re-trash-07.png",
+                            title: "캠페인",
+                            text: "2024년 9월 자원순환 결산 / 나들이가기 좋은 10월에는 텀블러 & 용기 짝꿍으로 일회용품 방어하기😎",
+                            date: "2024-10-06",
+                            link: "#"
+                        },
+                        {
+                            img: "img/re-trash-08.png",
+                            title: "캠페인",
+                            text: "2024년 8월 자원순환 결산 / 오늘 마신 '아아메' 일회용컵, 재활용 될까요?",
+                            date: "2025-09-03",
+                            link: "#"
+                        }
+                    ],
+                    cafe: [
+                        {
+                            img: "img/re-cafe-01.jpeg",
+                            title: "일회용없다방",
+                            text: "🌱월계중학교의 일회용컵 없는 학교 축제!",
+                            date: "2025-09-21",
+                            link: "#"
+                        },
+                        {
+                            img: "img/re-cafe-02.jpeg",
+                            title: "일회용없다방",
+                            text: "일회용 없이 신나게!신나는애프터센터의 은평구 청소년 기후위기 대응 축제 - 신나그린데이!",
+                            date: "2025-07-31",
+                            link: "#"
+                        },
+                        {
+                            img: "img/re-cafe-03.jpeg",
+                            title: "일회용없다방",
+                            text: "서울시 공익활동박람회에 찾아간 리필스테이션과 없슝이!",
+                            date: "2025-06-23",
+                            link: "#"
+                        },
+                        {
+                            img: "img/re-cafe-04.jpeg",
+                            title: "일회용없다방",
+                            text: "그린피스 ‘위어스_지구의 목소리’ 행사에서 만난 ‘일회용없다방’",
+                            date: "2025-06-07",
+                            link: "#"
+                        },
+                        {
+                            img: "img/re-cafe-05.jpeg",
+                            title: "일회용없다방",
+                            text: "서울 송천초 공정무역X비건X다회용기가 펼쳐진 지속가능경제 교육의 현장!",
+                            date: "2025-05-22",
+                            link: "#"
+                        },
+                        {
+                            img: "img/re-cafe-06.jpeg",
+                            title: "일회용없다방",
+                            text: "[후기] 96kg 쓰레기 줍고, 밀크티에서 없슝 한 잔☕️ | KB국민은행x와이퍼스 - 다함께 플로깅",
+                            date: "2025-04-30",
+                            link: "#"
+                        },
+                        {
+                            img: "img/re-cafe-07.jpeg",
+                            title: "일회용없다방",
+                            text: "[없슝] 앗 뜨거워! 탄핵커피차 후기♨️🔥",
+                            date: "2025-01-26",
+                            link: "#"
+                        },
+                        {
+                            img: "img/re-cafe-09.jpeg",
+                            title: "일회용없다방",
+                            text: "[없슝] 1/11 광화문에 없슝이 뜬다! 무료 다회용 비건 커피차 출동😚",
+                            date: "2025-01-10",
+                            link: "#"
+                        }
+                    ]
+                };
+
+                const wrapper = document.querySelector(".revivalSwiper .swiper-wrapper");
+                const tabs = document.querySelectorAll(".tab_menu button");
+                let swiper;
+
+                // 슬라이드 렌더링 함수
+                function renderSlides(type) {
+                    wrapper.innerHTML = "";
+
+                    let data = [];
+                    if (type === "all") {
+                        Object.values(slideData).forEach(arr => data.push(...arr));
+                    } else {
+                        data = slideData[type] || [];
+                    }
+
+                    data.forEach(item => {
+                        const slide = document.createElement("div");
+                        slide.classList.add("swiper-slide");
+                        slide.innerHTML = `
+                        <div class="item" data-type="${type}">
+                        <a href="${item.link}">
+                            <img src="${item.img}" alt="">
+                            <div class="text_wrap">
+                            <h3>${item.title}</h3>
+                            <p>${item.text}</p>
+                            <span class="date">${item.date}</span>
+                            </div>
+                        </a>
+                        </div>
+                    `;
+                        wrapper.appendChild(slide);
+                    });
+
+                    // 기존 Swiper 제거 후 다시 초기화
+                    if (swiper) swiper.destroy(true, true);
+
+                    swiper = new Swiper(".revivalSwiper", {
+                        slidesPerView: 1.5,
+                        //slidesPerGroup: 4,
+                        spaceBetween: 16,
+                        autoplay: {
+                            delay: 3000,
+                            disableOnInteraction: false,
+                        },
+                        navigation: {
+                            nextEl: ".swiper-button-next",
+                            prevEl: ".swiper-button-prev",
+                        },
+                        breakpoints: {
+                            768: {
+                                slidesPerView: 2,
+                                spaceBetween: 16,
+                            },
+                            1024: {
+                                slidesPerView: 4,
+                                spaceBetween: 32,
+                            },
+                        },
+                    });
+                }
+
+                // 탭 클릭 이벤트
+                tabs.forEach(tab => {
+                    tab.addEventListener("click", function () {
+                        tabs.forEach(t => t.classList.remove("active"));
+                        this.classList.add("active");
+                        const type = this.dataset.type;
+                        renderSlides(type);
+                    });
+                });
+
+                // 초기 실행
+                renderSlides("all");
+
+            </script>
+            </div><!-- .inner end -->
+        </section><!-- .revival end -->
+
+        <section class="sns">
+            <div class="inner">
+                <div class="title">
+                    <h2><span>알짜 정보만 확인할 수 있는</span><br />
+                        알맹상점 SNS</h2>
+                </div><!-- .title end -->
+                <div class="item_wrap">
+                    <div class="item">
+                        <h3>관련기사</h3>
+                        <img src="img/sns-01.jpg" alt="">
+                        <div class="text_wrap">
+                            <div class="headline">
+                                <p>국정기획위, ‘제로웨이스트샵’ 활성화 방안 논의... 친환경 소비 확산</p>
+                                <div class="source">
+                                    <span class="media">뉴시스</span>
+                                    <span class="date">2025.08.03</span>
+                                </div><!-- .source -->
+                            </div><!-- .headline end -->
+                            <div class="headline">
+                                <p>레버재단 X 알맹상점, '환경을 담은 우리 동네 가게' 지속가능성 지도 캠페인 진행</p>
+                                <div class="source">
+                                    <span class="media">한경BUSINESS</span>
+                                    <span class="date">2025. 04. 09</span>
+                                </div><!-- .source end -->
+                            </div><!-- .headline end -->
+                        </div><!-- .text_wrap end -->
+                    </div><!-- .item end -->
+
+                    <div class="item">
+                        <h3>유튜브</h3>
+                        <img src="img/sns-02.jpg" alt="">
+                        <div class="text_wrap">
+                            <p>알맹상점 리필의 모든 것 a 부터 z 까지!</p>
+                            <span class="date">2022. 12. 07</span>
+                        </div><!-- .text_wrap end -->
+                    </div><!-- .item end -->
+
+                    <div class="item">
+                        <h3>인스타그램</h3>
+                        <img src="img/sns-03.jpg" alt="">
+                        <div class="text_wrap">
+                            <p>9.24-26 코엑스 친환경 ESG 대전 10-17시, 리필스테이션으로 기다릴께요.</p>
+                            <span class="date">2025. 09. 03 </span>
+                        </div><!-- .text_wrap end -->
+                    </div><!-- .item end -->
+                </div><!-- .item_wrap end -->
+            </div><!-- .inner end -->
+        </section><!-- .sns end -->
+
+        <section class="map">
+            <div class="inner">
+                <div class="title tablet">
+                    <h2>알맹상점 오시는 길</h2>
+                </div><!-- .title end -->
+                <div class="info_wrap">
+                    <div class="title pc">
+                        <h2>알맹상점 오시는 길</h2>
+                    </div><!-- .title end -->
+
+                    <div class="info">
+                        <h3>망원점</h3>
+                        <p>서울 마포구 월드컵로25길 47, 3층<br />
+                            화 - 일 12:00 - 20:00, 월 휴무<br />
+                            엘리베이터, 경사로 사용 가능
+                        </p>
+                    </div><!-- .info end -->
+                    <div class="contect">
+                        <h3>문의</h3>
+                        <p>+82 10 - 4406 - 1925 (Only message)</p>
+                    </div><!-- .contect end -->
+
+                    <div class="link">
+                        <a href="#">
+                            카카오 지도로 찾기
+                        </a>
+                    </div><!-- .link end -->
+                </div><!-- .info_wrap end -->
+                <div class="kakao_map">
+                    <!-- * 카카오맵 - 지도퍼가기 -->
+                    <!-- 1. 지도 노드 -->
+                    <div id="daumRoughmapContainer1759298510034" class="root_daum_roughmap root_daum_roughmap_landing">
+                    </div>
+
+                    <script charset="UTF-8" class="daum_roughmap_loader_script"
+                        src="https://ssl.daumcdn.net/dmaps/map_js_init/roughmapLoader.js"></script>
+
+                    <!-- 3. 실행 스크립트 -->
+                    <script charset="UTF-8">
+                        new daum.roughmap.Lander({
+                            "timestamp": "1759298510034",
+                            "key": "a3942en2ft9",
+                            "mapWidth": "1440",
+                            "mapHeight": "750"
+                        }).render();
+                    </script>
+                </div><!-- .kakao_map end -->
+            </div><!-- .inner end -->
+        </section><!-- .map end -->
+
+        <section class="faq">
+            <div class="inner">
+                <div class="title">
+                    <h2><span>FAQ</span><br />
+                        자주 묻는 질문</h2>
+                </div><!-- .title end -->
+
+                <div id="faq_wrap">
+                    <div class="que">
+                        <span>알맹상점 세제, 화장품 리필 제품 정보가 궁금해요.</span>
+                        <div class="arrow_wrap">
+                            <img src="img/icon-down-02.svg" alt="" class="arrow_bottom">
+                            <img src="img/icon-top.svg" alt="" class="arrow_top">
+                        </div><!-- arrow_wrap end -->
+                    </div><!-- .que end -->
+
+                    <div class="anw">
+                        <span>리스테이션 메뉴에서 전 품목 확인 가능합니다.
+                            알맹상점 블로그에도 자세히 정리되어 있으니 아래 주소에서 확인해주세요.</span>
+                        <div class="link">
+                            <a href="https://blog.naver.com/almangmarket/222706391848" target="_blank">화장품 리필
+                                정보</a>
+                            <a href="https://blog.naver.com/almangmarket/222895800337" target="_blank">식재료 리필
+                                정보</a>
+                            <a href="https://blog.naver.com/almangmarket/222700758473" target="_blank">세제 리필
+                                정보</a>
+                        </div><!-- .link end -->
+                    </div><!-- .anw end -->
+                    <div class="que">
+                        <span>브리타 필터 재사용 방법에 대해서 알려주세요.</span>
+                        <div class="arrow_wrap">
+                            <img src="img/icon-down-02.svg" alt="" class="arrow_bottom">
+                            <img src="img/icon-top.svg" alt="" class="arrow_top">
+                        </div><!-- arrow_wrap end -->
+                    </div><!-- .que end -->
+                    <div class="anw">
+                        <span>아래 동영상을 보시고 셀프로 해킹해보세요. 자세히 설명해놓았습니다. 전동드릴과 날이 있다면 누구나 해킹 가능합니다. 단, 손조심! 리필 후 어떻게 세척하고
+                            사용하는지 방법도 담겨 있어요.<br />
+                            길쭉한 클래식 필터 리필방법, 그리고 뚜껑이 쉽게 열려 해킹이 쉬운 일렉트로맨 정수기 필터도 소개하였습니다.
+                        </span>
+                        <div class="link">
+                            <a href="https://youtu.be/SOkDtmXnlYQ" target="_blank">영상 보러가기</a>
+                        </div><!-- .link end -->
+                    </div><!-- .anw end -->
+                    <div class="que">
+                        <span>제로웨이스트 샵 창업을 하고 싶은데, 리필 가이드를 알고 싶어요.</span>
+                        <div class="arrow_wrap">
+                            <img src="img/icon-down-02.svg" alt="" class="arrow_bottom">
+                            <img src="img/icon-top.svg" alt="" class="arrow_top">
+                        </div><!-- arrow_wrap end -->
+                    </div><!-- .que end -->
+                    <div class="anw">
+                        <span>알맹상점 창업과 관련된 자세한 사항은 '알맹이만 팔아요, 알맹상점' 서적에 자세히 나와있습니다.
+                            내용 중 일부를 아래 링크로 공유드립니다.
+                            <div class="link">
+                                <a href="https://arborsday.github.io/Readium/?epub=epub_content/Almaeng_Refil_20221010"
+                                    target="_blank">가이드 보러가기</a>
+                            </div><!-- .link end -->
+                        </span>
+                    </div><!-- .anw end -->
+                    <div class="que">
+                        <span>판매하시는 물품 택배 배송은 안하시나요?</span>
+                        <div class="arrow_wrap">
+                            <img src="img/icon-down-02.svg" alt="" class="arrow_bottom">
+                            <img src="img/icon-top.svg" alt="" class="arrow_top">
+                        </div><!-- arrow_wrap end -->
+                    </div><!-- .que end -->
+                    <div class="anw">
+                        <span>알맹상점은 쓰레기로 인한 탄소배출을 줄이기 위해 온라인 판매를 하지 않고 있습니다.
+                            하지만 쓰레기를 줄이는 다양한 제품을 개별 포장 없이 들여오기 어려운 점을 누구보다 알고 있기에<br />
+                            소비자 반응이 좋았던 제품, 개별 포장 없이 소량으로 구입하기 힘든 제품, 신박한 제로웨이스트 제품 등을 기준으로
+                            도매몰을 운영하게 되었습니다. 조금 더 쉽고 개별 포장 없는 제품들만 엄선하여<br />
+                            유통상 발생하는 비닐, 플라스틱 등의 쓰레기를 줄이고자 했습니다. 도매몰이기에 사업자전용으로 운영되어 일반 소비자 분들에게 오픈되지 않는 점 양해
+                            부탁드립니다.<br />
+
+                            오프라인에서 판매하는 제품 리스트는 '리스테이션' 메뉴에서 확인하실 수 있습니다.
+                        </span>
+                        <div class="link">
+                            <a href="" target="_blank">알맹상점 도매몰 이동하기</a>
+                            <a href="" target="_blank">알맹상점 도매몰 안내사항</a>
+                            <a href="" target="_blank">알맹상점 오프라인 판매 제품 알아보기</a>
+                        </div><!-- .link end -->
+                    </div><!-- .anw end -->
+                    <div class="que">
+                        <span>자원순환 커뮤니티 센터 택배 수거는 왜 안받으시나요?</span>
+                        <div class="arrow_wrap">
+                            <img src="img/icon-down-02.svg" alt="" class="arrow_bottom">
+                            <img src="img/icon-top.svg" alt="" class="arrow_top">
+                        </div><!-- arrow_wrap end -->
+                    </div><!-- .que end -->
+                    <div class="anw">
+                        <span>알맹상점 내 보관 공간이 부족하기 때문에 A4사이즈 쇼핑백 만큼만 수거하고, 택배는 받지 않습니다.
+                            알맹상점이 멀거나 양이 많다면 '에코야얼스'로 수거하시는 것을 추천합니다.
+                            <div class="link">
+                                <a href="https://ecoyaearth.net/" target="_blank">'에코야얼스' 설치하기</a>
+                            </div><!-- .link end  -->
+                        </span>
+                    </div><!-- .anw end -->
+                </div><!-- #faq_wrap -->
+            </div><!-- .inner end -->
+
+            <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+            <script>
+                $(".que").click(function () {
+                    $(this).next(".anw").stop().slideToggle(300);
+                    $(this).toggleClass('on').siblings().removeClass('on');
+                    $(this).next(".anw").siblings(".anw").slideUp(300); // 1개씩 펼치기
+                });
+            </script>
+        </section><!-- .faq end -->
+    </main><!-- main end -->
+
+    <footer class="footer">
+        <div class="inner">
+            <div class="bt_logo tablet">
+                <a href="#"><img src="img/logo.svg" alt="하단로고"></a>
+            </div><!-- .bt_logo end -->
+            <div class="info_wrap">
+                <div class="bt_logo pc">
+                    <a href="#"><img src="img/logo.svg" alt="하단로고"></a>
+                </div><!-- .bt_logo end -->
+                <ul>
+                    <li>쓰레기를 줄이는 작은 마음들의 플랫폼, 알맹상점</li>
+                    <li>zero@almang.net</li>
+                    <li>사업자등록번호 (주) 알리(망원) 155 81 02836</li>
+                </ul>
+
+
+                <div class="service_wrap">
+                    <ul class="service">
+                        <li><a href="#">이용약관</a></li>
+                        <li><a href="#">개인정보보호정책</a></li>
+                        <li><a href="#">이용안내</a></li>
+                    </ul><!-- .service end -->
+
+                    <p>Copyright ©알맹상점. All Rights Reserved.</p>
+
+                </div><!-- .service_wrap end -->
+            </div><!-- .info_wrap end -->
+
+            <nav class="footer_nav">
+                <ul class="gnb">
+                    <li><a href="#" class="depth-01">리스테이션</a></li>
+                    <li><a href="#" class="depth-01">스케줄</a></li>
+                    <li><a href="#" class="depth-01">단체</a></li>
+                    <li><a href="#" class="depth-01">알짜매거진</a></li>
+                    <li><a href="#" class="depth-01">제로웨이스트 지도</a></li>
+                </ul><!-- .gnb end -->
+
+                <ul class="sns">
+                    <li><a href="#">INSTAGRAM</a></li>
+                    <li><a href="#">BLOG</a></li>
+                    <li><a href="#">YOUTUBE</a></li>
+                </ul><!-- .sns end -->
+            </nav><!-- .footer_nav -->
+        </div><!-- .inner end -->
+    </footer><!-- .footer end -->
+
+</body>
+
+</html>
