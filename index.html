@@ -257,7 +257,8 @@
                             <p>
                                 알맹상점은 2018년 망원시장에서 쓰지 않는 장바구니를 모아<br />
                                 ‘용기 내’ 알맹이만 사려고 노력하던 <strong>알맹이만 찾는 자 ‘알짜’들의 모임</strong>에서<br />
-                                시작된 <strong>각종 세제, 화장품, 차와 원두, 향신료를 판매</strong>하는 <strong><br />국내 최초 리필스테이션</strong>입니다.
+                                시작된 <strong>각종 세제, 화장품, 차와 원두, 향신료를 판매</strong>하는 <strong><br />국내 최초
+                                    리필스테이션</strong>입니다.
                             </p>
                             <p>
                                 상점 내 <strong>‘자연순환 커뮤니티 회수 센터’ 운영</strong>으로 재활용 체계에서<br />
@@ -327,188 +328,195 @@
                     </div><!-- .text_wrap end -->
                 </div><!-- .title_wrap end -->
 
-                <div id="container"></div>
+                <!-- 물리 알약 섹션 -->
+                <section id="physics-tags" class="playground">
+                    <ul class="chips">
+                        <li class="chip chip--blue"><a href="#center">자원순환 수거센터</a></li>
+                        <li class="chip chip--green"><a href="#workshop">워크샵</a></li>
+                        <li class="chip chip--red"><a href="#cafe-zero">일회용없다방</a></li>
+                        <li class="chip chip--blue long"><a href="#vegan">일회용품없는 비건카페</a></li>
+                        <li class="chip chip--yellow long"><a href="#edu">제로 웨이스트 교육</a></li>
+                        <li class="chip chip--red"><a href="#refill">리필 스테이션</a></li>
+                    </ul>
+                    <canvas id="physics-helper"></canvas>
+                </section>
 
-                <!-- path cdn -->
-                <script src="https://cdn.jsdelivr.net/npm/pathseg@1.2.1/pathseg.js"></script>
-                <script src="https://cdn.jsdelivr.net/npm/poly-decomp@0.3.0/build/decomp.min.js"></script>
 
                 <!-- matter.js cdn -->
-                <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.17.1/matter.js"></script>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.js"></script>
                 <script>
-                    // 📕보통 matter.js에서 패스를 지정할 때 쓴다.
-                    const reactangle =
-                        "m.26,274.72c-1.79-20.16,5.77-40.86,22.2-55.17L256.07,16.09c27.25-23.73,68.58-20.88,92.31,6.37,23.73,27.25,20.88,68.58-6.37,92.31l-233.61,203.46c-27.25,23.73-68.58,20.88-92.31-6.37-9.42-10.82-14.66-23.86-15.83-37.14Z";
-                    const curved =
-                        "m341.46,31.89c14.51,28.65,3.05,63.65-25.6,78.16-3.42,1.73-34.78,17.16-83.49,26.15-28.57,5.27-57.68,7.34-86.51,6.14-36.13-1.5-71.89-8.14-106.28-19.74C9.15,112.33-7.2,79.34,3.07,48.9,13.33,18.47,46.33,2.12,76.77,12.39c101.89,34.37,185.72-5.68,186.54-6.1,28.65-14.51,63.65-3.05,78.16,25.6Z";
+                    (() => {
+                        const $stage = document.getElementById('physics-tags');
+                        const $helper = document.getElementById('physics-helper');
+                        if (!$stage || !$helper || !window.Matter) return;
 
-                    // 📕--- 초기 세팅 ---
-                    const Engine = Matter.Engine,
-                        World = Matter.World,
-                        Bodies = Matter.Bodies;
-                    Body = Matter.Body;
-                    Composites = Matter.Composites;
-                    Common = Matter.Common;
-                    Vertices = Matter.Vertices;
-                    Svg = Matter.Svg;
-                    Composite = Matter.Composite;
-                    // --- 초기 세팅 ---
+                        // ===== 옵션 =====
+                        const EDGE_PAD = 14;          // 내부 여백
+                        const WALL_THK = 120;         // 보이지 않는 벽 두께
+                        const HOVER_R = 180;         // 마우스 반응 반경
+                        const HOVER_PWR = 0.0035;      // 마우스 반발 힘
+                        const GRAVITY_Y = 1.0;
 
-                    // 📕Engine.create() 함수를 사용하여 Matter.js 엔진을 생성한다.
-                    const engine = Engine.create();
-                    // 📕렌더링할 컨테이너 역할 부분의 id를 가져온다.(getElementById)
-                    const container = document.getElementById("container");
+                        // 높이 CSS 변수(반응형)
+                        function setStageCssHeight() {
+                            const h = Math.max(420, Math.min(window.innerHeight * 0.68, 720));
+                            $stage.style.setProperty('--pt-h', `${h}px`);
+                        }
+                        setStageCssHeight();
+                        window.addEventListener('resize', setStageCssHeight, { passive: true });
+                        window.addEventListener('orientationchange', setStageCssHeight);
 
-                    // 📕Matter.Render.create() 함수를 사용하여 시각적인 렌더링을 담당하는 객체를 생성한다.
-                    const renderer = Matter.Render.create({
-                        element: container, // 렌더러가 그릴 HTML요소를 지정해준다.
-                        engine: engine, // 렌더러에 사용될 Matter.js 엔진을 지정해준다.
-                        options: {
-                            // 커스텀 옵션들을 설정해준다.
-                            width: container.offsetWidth,
-                            height: container.offsetHeight,
-                            wireframes: false, //wireframe 여부
-                            background: "#fff",
-                        },
-                    });
+                        const { Engine, World, Bodies, Body, Mouse, MouseConstraint, Runner,
+                            Events, Render, Vector, Composite, Svg } = Matter;
 
-                    // 📕경계 벽 생성하는 부분 (순서대로 왼쪽, 오른쪽, 아래이다. isStatic은 바디를 정적으로 만들어 물리 시뮬레이션에 영향을 주지 않도록 한다.)
-                    // 🧐 여기선 왜 위쪽 벽을 설정하지 않았을까? -> 떨어지는 효과를 나타내야하기 때문이다.
-                    const walls = [
-                        Bodies.rectangle(0, 0, 1, container.offsetHeight * 2, {
-                            isStatic: true,
-                            render: {
-                                visible: false,   // ← 보이지 않게
-                            },
-                        }),
-                        Bodies.rectangle(
-                            container.offsetWidth,
-                            0,
-                            1,
-                            container.offsetHeight * 2,
-                            {
-                                isStatic: true,
-                                render: {
-                                    visible: false,
-                                },
+                        const engine = Engine.create();
+                        engine.world.gravity.y = GRAVITY_Y;
+                        const runner = Runner.create();
+
+                        // 캔버스 렌더러
+                        const render = Render.create({
+                            engine, canvas: $helper, element: $stage,
+                            options: {
+                                width: $stage.clientWidth,
+                                height: $stage.clientHeight,
+                                wireframes: false,
+                                background: 'transparent'
                             }
-                        ),
-                        Bodies.rectangle(
-                            0,
-                            container.offsetHeight,
-                            container.offsetWidth * 2,
-                            1,
-                            {
-                                isStatic: true,
-                                render: {
-                                    visible: false,
-                                },
+                        });
+
+                        // === 벽(바운더리) 생성/재생성 ===
+                        let boundsComposite = null;
+                        function purgeStaticBodies() {
+                            const bodies = Composite.allBodies(engine.world);
+                            bodies.forEach(b => { if (b.isStatic) Composite.remove(engine.world, b, true); });
+                        }
+                        function rebuildBounds() {
+                            purgeStaticBodies();
+                            if (boundsComposite) {
+                                Composite.remove(engine.world, boundsComposite, true);
+                                boundsComposite = null;
                             }
-                        ),
-                    ];
+                            const rect = $stage.getBoundingClientRect();
+                            const w = rect.width;
+                            const h = rect.height;
 
-                    // 📕물리적 특성을 설정하는 객체인 physics를 정의한다.
-                    const physics = {
-                        restitution: 0.7, // 복원력 또는 탄성력 (0~1 사이에 지정해줌. 1에 가까워질 수록 충돌 후 빠르게 원래 형태로 돌아간다.)
-                        friction: 0.4, // 마찰 계수 (0~1 사이에 지정해줌. 1에 가까워질 수록 강한 마찰이 발생한다.)
-                    };
+                            const left = Bodies.rectangle(EDGE_PAD - WALL_THK / 2, h / 2, WALL_THK, h * 3, { isStatic: true, label: 'bound-left' });
+                            const right = Bodies.rectangle(w - EDGE_PAD + WALL_THK / 2, h / 2, WALL_THK, h * 3, { isStatic: true, label: 'bound-right' });
+                            const ceil = Bodies.rectangle(w / 2, EDGE_PAD - WALL_THK / 2, w + WALL_THK * 4, WALL_THK, { isStatic: true, label: 'bound-ceil' });
+                            const ground = Bodies.rectangle(w / 2, h - EDGE_PAD + WALL_THK / 2, w + WALL_THK * 4, WALL_THK, { isStatic: true, label: 'bound-ground' });
 
-                    // 도넛모양 생성하는 부분인 듯!
-                    const createCircle = (width, color, x, y) => {
-                        const outerCircle = Bodies.circle(x, y, width, {
-                            ...physics,
-                            render: {
-                                fillStyle: color,
-                            },
-                        });
-                        const innerCircle = Bodies.circle(x, y, width / 2.5, {
-                            ...physics,
-                            render: {
-                                fillStyle: "#eee7e0",
-                            },
-                        });
+                            boundsComposite = Composite.create({ label: 'playground-bounds' });
+                            Composite.add(boundsComposite, [left, right, ceil, ground]);
+                            World.add(engine.world, boundsComposite);
+                        }
 
-                        return Body.create({
-                            parts: [outerCircle, innerCircle],
-                        });
-                    };
+                        // === 도형 생성 ===
+                        const domChips = Array.from(document.querySelectorAll('#physics-tags .chip'));
+                        const domToBody = new Map();
+                        const commonPhys = { restitution: .85, friction: .2, frictionAir: .02, density: .001 };
 
-                    // 소세지모양 생성하는 부분인듯!
-                    const createSvgElement = (path, color, scale, x, y, angle) => {
-                        pathElement = document.createElementNS(
-                            "http://www.w3.org/2000/svg",
-                            "path"
-                        );
-                        pathElement.setAttribute("d", path);
-                        const vertices = Svg.pathToVertices(pathElement, 3);
-                        vertices.forEach((vertical) => {
-                            const i = vertices.findIndex(
-                                (v) => v.x === vertical.x && v.y === vertical.y
+                        domChips.forEach((el, i) => {
+                            const w = el.offsetWidth;
+                            const h = el.offsetHeight;
+                            const body = Bodies.rectangle(
+                                $stage.clientWidth * (.18 + Math.random() * .64),
+                                -(80 + i * 40),
+                                w, h,
+                                { ...commonPhys, chamfer: { radius: h / 2 }, label: `chip-${i}` }
                             );
+                            // 초기 회전이 있으면 반영
+                            const m = (el.style.transform || '').match(/rotate\((-?\d+\.?\d*)deg\)/);
+                            if (m) Body.rotate(body, parseFloat(m[1]) * Math.PI / 180);
 
-                            if (i !== -1) {
-                                vertices.splice(i, 1);
-                            }
+                            domToBody.set(el, body);
+                            World.add(engine.world, body);
                         });
-                        const body = Bodies.fromVertices(
-                            x,
-                            y,
-                            vertices,
-                            {
-                                ...physics,
-                                render: {
-                                    fillStyle: color,
-                                    strokeStyle: color,
-                                    lineWidth: "1px",
-                                },
-                            },
-                            true
-                        );
 
-                        Body.scale(body, 1, 1);
-                        Body.setAngle(body, angle);
+                        // 마우스 드래그
+                        const mouse = Mouse.create($stage);
+                        const mc = MouseConstraint.create(engine, { mouse, constraint: { stiffness: 0.25, render: { visible: false } } });
+                        World.add(engine.world, mc);
 
-                        return body;
-                    };
+                        // 드래그 중 클릭 차단(의도치 않은 링크 클릭 방지)
+                        let dragging = false;
+                        Events.on(mc, 'startdrag', () => dragging = true);
+                        Events.on(mc, 'enddrag', () => setTimeout(() => dragging = false, 0));
+                        domChips.forEach(el => el.addEventListener('click', e => { if (dragging) e.preventDefault(); }));
 
-                    // 모양 생성하는 함수를 바탕으로 요소들을 생성해주는 부분인듯
+                        // 렌더/러너 시작
+                        Render.run(render);
+                        Runner.run(runner, engine);
 
-                    const elements = [
-                        createSvgElement(curved, "#583d91", 1, 250, -400, 30),
-                        createSvgElement(reactangle, "#eb5c48", 1, 450, -400, 50),
-                        createCircle(115, "#9a3d90", 500, -400),
-                        createSvgElement(curved, "#583d91", 1, 700, -400, 50),
-                        createCircle(135, "#eb5c48", 1150, -200),
-                        createSvgElement(curved, "#583d91", 1, 1460, -400, 200),
+                        // DOM ↔ 물리 동기화
+                        (function sync() {
+                            domToBody.forEach((body, el) => {
+                                const { x, y } = body.position, a = body.angle;
+                                el.style.transform = `translate(${x - el.offsetWidth / 2}px, ${y - el.offsetHeight / 2}px) rotate(${a}rad)`;
+                            });
+                            requestAnimationFrame(sync);
+                        })();
 
-                        createSvgElement(curved, "#583d91", 1, 1300, -700, 300),
-                        createSvgElement(reactangle, "#fab71a", 1, 1600, -700, 100),
+                        // 호버 반발(스크롤 방해 없음)
+                        Events.on(engine, 'beforeUpdate', () => {
+                            const m = mc.mouse.position;
+                            if (!m) return;
+                            domToBody.forEach((body) => {
+                                const dir = Vector.sub(body.position, m);
+                                const dist = Vector.magnitude(dir) || 0.0001;
+                                if (dist < HOVER_R) {
+                                    const n = Vector.mult(dir, 1 / dist);
+                                    const f = (1 - dist / HOVER_R) * HOVER_PWR * body.mass;
+                                    Body.applyForce(body, body.position, Vector.mult(n, f));
+                                }
+                            });
+                        });
 
-                        createCircle(115, "#fab71a", 100, -900),
-                        createSvgElement(curved, "#eb5c48", 1, 250, -900, 250),
-                        createCircle(135, "#fab71a", 600, -900),
-                        createSvgElement(curved, "#eb5c48", 1, 1500, -900, 100),
-                    ];
+                        // === 리사이즈: 캔버스/뷰포트/벽 전부 갱신 ===
+                        function onResize() {
+                            const rect = $stage.getBoundingClientRect();
 
-                    // 📕MouseConstraint은 마우스 입력을 기반으로 물리 시뮬레이션에 영향을 주는 제약(Constraint)을 제공한다.
-                    const mouseConstraint = Matter.MouseConstraint.create(engine, {
-                        element: container,
-                        constraint: {
-                            stiffness: 0.2, // 제어의 강도 또는 강성(stiffness)을 나타내는 값 (낮을수록 유연)
-                            render: {
-                                visible: false, // 제어 요소(마우스)의 가시성 여부
-                            },
-                        },
-                    });
+                            // 캔버스 사이즈 & 뷰포트 갱신
+                            render.canvas.width = rect.width;
+                            render.canvas.height = rect.height;
+                            render.options.width = rect.width;
+                            render.options.height = rect.height;
+                            Matter.Render.setPixelRatio(render, window.devicePixelRatio || 1);
 
-                    // 📕World.add()로 물리 엔진 세계에 다양한 물체들을 추가(배열 안에 설정해놓은 변수들을 펼침연산자로 추가한다.)
-                    World.add(engine.world, [...walls, mouseConstraint, ...elements]);
-                    // 📕Engine.run()로 Matter.js 엔진을 실행
-                    Engine.run(engine);
+                            render.bounds.min.x = 0;
+                            render.bounds.min.y = 0;
+                            render.bounds.max.x = rect.width;
+                            render.bounds.max.y = rect.height;
 
-                    // 📕Render.run()호출하여 렌더러 실행
-                    Matter.Render.run(renderer);
+                            // 벽 재생성 (가장 중요)
+                            rebuildBounds();
+
+                            // 화면 밖으로 밀려난 칩들 보정(새 경계에 맞춰 클램프)
+                            domToBody.forEach((body, el) => {
+                                const rW = body.bounds.max.x - body.bounds.min.x;
+                                const rH = body.bounds.max.y - body.bounds.min.y;
+                                const minX = EDGE_PAD + rW / 2, maxX = rect.width - EDGE_PAD - rW / 2;
+                                const minY = EDGE_PAD + rH / 2, maxY = rect.height - EDGE_PAD - rH / 2;
+                                const nx = Math.min(Math.max(body.position.x, minX), maxX);
+                                const ny = Math.min(Math.max(body.position.y, minY), maxY);
+                                if (nx !== body.position.x || ny !== body.position.y) {
+                                    Body.setPosition(body, { x: nx, y: ny });
+                                    Body.setVelocity(body, { x: 0, y: 0 });
+                                    Body.setAngularVelocity(body, 0);
+                                }
+                            });
+                        }
+
+                        // 최초 세팅 + 리스너
+                        rebuildBounds();
+                        onResize();
+                        window.addEventListener('resize', onResize, { passive: true });
+                        window.addEventListener('orientationchange', onResize);
+
+                        // 컨테이너 자체 레이아웃 변동 감지
+                        new ResizeObserver(onResize).observe($stage);
+                    })();
                 </script>
+
             </div><!-- .inner end -->
         </section><!-- .philosophy end -->
 
@@ -610,8 +618,8 @@
                         </div><!-- .swiper-slide end -->
                     </div><!-- .swiper-wrapper end -->
                     <div class="swiper-btn">
-                        <div class="swiper-button-next"></div>
                         <div class="swiper-button-prev"></div>
+                        <div class="swiper-button-next"></div>
                     </div><!-- .swiper-btn end -->
                 </div><!-- .recycleSwiper end -->
 
@@ -644,10 +652,7 @@
                         <button data-type="Monthly_trash">월간쓰레기</button>
                         <button data-type="cafe">일회용없다방</button>
                     </div>
-                    <div class="nav_buttons pc">
-                        <div class="swiper-button-next"></div>
-                        <div class="swiper-button-prev"></div>
-                    </div><!-- .nav_buttons end -->
+
                 </div><!-- revival_header end -->
 
                 <div class="swiper revivalSwiper">
