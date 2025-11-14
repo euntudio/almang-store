@@ -796,6 +796,7 @@ body {
     align-items: center;
     gap: 50px;
     margin-bottom: 20px;
+    order: 1;
 }
 
 .revival_header .nav_buttons.pc .swiper-button-prev,
@@ -891,10 +892,7 @@ body {
     line-height: 1.3;
 }
 
-.sns .inner .item_wrap .item .text_wrap .headline {
-    opacity: 0.5;
-    transform: opacity 0.3s;
-}
+.sns .inner .item_wrap .item .text_wrap .headline {}
 
 .sns .inner .item_wrap .item .text_wrap .headline.active {
     opacity: 1;
@@ -903,7 +901,7 @@ body {
 .sns .inner .item_wrap .item .text_wrap .headline p {
     display: -webkit-box;
     -webkit-box-orient: vertical;
-    -webkit-line-clamp: 1;
+    -webkit-line-clamp: 2;
     overflow: hidden;
 }
 
@@ -912,7 +910,14 @@ body {
 }
 
 .sns .inner .item_wrap .item .text_wrap .headline .source {
-    margin-top: 4px;
+    margin-top: 8px;
+    color: #666;
+    font-size: 18px;
+}
+
+.text_wrap .date {
+    font-size: 18px;
+    color: #666;
 }
 
 .map .inner {
