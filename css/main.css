@@ -21,7 +21,7 @@ body {
 .sns .inner,
 .faq .inner {
     max-width: 1920px;
-    width: calc(100% - 64px);
+    width: calc(100% - 160px);
     margin: 0 auto;
 }
 
@@ -38,7 +38,7 @@ body {
 
 .header .inner {
     max-width: 1920px;
-    width: calc(100% - 64px);
+    width: calc(100% - 160px);
     height: 100%;
     margin: 0 auto;
     position: relative;
@@ -140,7 +140,7 @@ body {
     width: 50%;
     background-color: #E75251;
     border-right: 2px solid #000;
-    padding: 50px;
+    padding: 50px 80px;
     color: #fff;
     display: flex;
     flex-direction: column;
@@ -195,27 +195,27 @@ body {
 .main_visual .swiper-button-prev {
     background: url('../img/icon-left.svg') center center / cover no-repeat;
     left: auto;
-    right: 141px;
+    right: 170px;
 }
 
 .main_visual .swiper-rtl .swiper-button-next,
 .main_visual .swiper-button-prev:hover {
     background: url('../img/left-hover.svg') center center / cover no-repeat;
     left: auto;
-    right: 141px;
+    right: 170px;
     transition: 0.3s;
 }
 
 .main_visual .swiper-button-next,
 .main_visual .swiper-rtl .swiper-button-prev {
     background: url('../img/icon-right.svg') center center / cover no-repeat;
-    right: 51px;
+    right: 80px;
 }
 
 .main_visual .swiper-button-next:hover,
 .main_visual .swiper-rtl .swiper-button-prev {
     background: url('../img/right-hover.svg') center center / cover no-repeat;
-    right: 51px;
+    right: 80px;
     transition: 0.3s;
 }
 
@@ -325,7 +325,7 @@ body {
 }
 
 .brand_info .inner .image_wrap img {
-    width: 48%;
+    width: 45%;
 
 }
 
@@ -464,7 +464,7 @@ body {
 }
 
 .recycle .inner .recycleSwiper {
-    width: calc(100% - 64px);
+    width: calc(100% - 160px);
     margin-top: 80px;
     overflow: hidden;
     margin: 0 auto;
@@ -523,7 +523,7 @@ body {
 }
 
 .recycle .text_wrap h3 {
-    font-size: 1.1vw;
+    font-size: 1vw;
     font-weight: 600;
 }
 
@@ -641,7 +641,7 @@ body {
 }
 
 .revival .inner .title {
-    width: calc(100% - 64px);
+    width: calc(100% - 160px);
     margin: 0 auto;
     position: relative;
 }
@@ -721,7 +721,7 @@ body {
 }
 
 .revival_header {
-    width: calc(100% - 64px);
+    width: calc(100% - 160px);
     margin: 0 auto;
     display: flex;
     align-items: center;
@@ -731,7 +731,7 @@ body {
 }
 
 .revivalSwiper {
-    width: calc(100% - 64px);
+    width: calc(100% - 160px);
 }
 
 /* 카드 */
@@ -921,7 +921,7 @@ body {
 }
 
 .map .inner {
-    width: calc(100% - 64px);
+    width: calc(100% - 160px);
     margin: 0 auto;
     display: flex;
     align-items: center;
@@ -1141,7 +1141,7 @@ body {
 .footer {
     position: relative;
     top: 98px;
-    padding: 60px 32px;
+    padding: 60px 80px;
     border-top: 2px solid #000;
 }
 
