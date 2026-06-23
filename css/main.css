@@ -413,11 +413,15 @@ body {
 }
 
 .recycle {
-    padding: 300px 0;
-    background: url('../img/recycle-bg.png') center center / 120% no-repeat;
+    padding: clamp(80px, 10vw, 180px) 0;
+    background: url('../img/recycle-bg.png') center center / 130% no-repeat;
 }
 
 .recycle .inner {
+    margin: 50px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     overflow: hidden;
 }
 
@@ -425,6 +429,7 @@ body {
     text-align: center;
     display: flex;
     flex-direction: column;
+    margin: 40px 0;
     gap: 40px;
 }
 
@@ -454,7 +459,7 @@ body {
     width: 8px;
     height: 8px;
     position: absolute;
-    left: 60px;
+    left: 57px;
     top: 0;
 }
 
@@ -464,26 +469,45 @@ body {
 }
 
 .recycle .inner .recycleSwiper {
-    width: calc(100% - 160px);
+    width: 100%;
+    max-width: none;
     margin-top: 80px;
     overflow: hidden;
     margin: 0 auto;
     padding: 50px 0;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.recycle .recycleSwiper.swiper-initialized {
+    opacity: 1;
 }
 
 .recycle .inner .recycleSwiper .swiper-slide {
-    padding: 40px 0;
+    padding: 30px 0;
+    display: flex;
+    justify-content: center;
 }
 
 .recycle .content_wrap {
-    width: 100%;
-    height: 100%;
+    width: clamp(180px, 18vw, 300px);
+    height: clamp(180px, 18vw, 300px);
+    transform: scale(1.1);
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    transition: transform 0.3s ease;
-    padding: 80px 0;
+
+    transition: transform .3s ease;
+
+    opacity: 0.5;
+    transition: all 0.3s ease;
+}
+
+.recycle .swiper-slide-next+.swiper-slide .content_wrap {
+    transform: scale(1.3);
+    opacity: 1;
+
 }
 
 .recycle .content_wrap.red {
@@ -523,20 +547,21 @@ body {
 }
 
 .recycle .text_wrap h3 {
-    font-size: 1vw;
-    font-weight: 600;
+    font-size: clamp(12px, 1vw, 22px);
+    font-weight: bold;
 }
 
 .recycle .text_wrap p {
-    font-size: 1vw;
+    font-size: clamp(11px, 0.9vw, 20px);
 }
 
 .recycle .recycleSwiper .swiper-wrapper {
     align-items: center;
+    margin-right: 0;
 }
 
 .recycle .recycleSwiper .swiper-wrapper .swiper-slide {
-    margin: 0 auto;
+    margin-right: 0;
 }
 
 .recycle .recycleSwiper .swiper-slide .text_wrap {
@@ -550,48 +575,15 @@ body {
     align-items: center;
 }
 
-.recycle .swiper-slide.swiper-slide-next+.swiper-slide.swiper-slide {
-    transform: scale(1.3);
-    z-index: 99;
-}
-
-.recycle .content_wrap.yellow {}
-
-
-.recycle .swiper-rtl .swiper-button-next,
-.recycle .swiper-button-prev {
-    background: url('../img/icon-left.svg') center center / cover no-repeat;
-    position: absolute;
-    left: calc(50% - 250px);
-    border-radius: 50%;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-}
-
-.recycle .swiper-button-prev,
-.recycle .swiper-button-next {
-    width: 50px;
-    height: 50px;
-    z-index: 10;
-}
-
-.recycle .swiper-button-next,
-.recycle .swiper-rtl .swiper-button-prev {
-    background: url('../img/icon-right.svg') center center / cover no-repeat;
-    position: absolute;
-    right: calc(50% - 250px);
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-    border-radius: 50%;
-}
-
 .recycle .swiper-button-next:after,
 .recycle .swiper-button-prev:after {
     display: none;
 }
 
 .recycle .link {
-    margin-top: 80px;
     display: flex;
     justify-content: center;
+    margin-top: 10px;
 
 }
 
@@ -610,25 +602,40 @@ body {
     transition: 0.3s;
 }
 
-/* 재활용: 버튼 묶음 컨테이너를 한 번에 움직임 */
 .recycle .swiper-btn {
-    position: relative;
-    /* 필요하면 absolute로 바꿔서 원하는 곳에 고정 가능 */
-    margin-top: 24px;
-    /* 위치 미세조정 */
     display: flex;
     justify-content: center;
-    gap: 20px;
-    /* 간격 한 번에 조절 */
-    z-index: 10;
+    align-items: center;
+    gap: 30px;
+
+    margin-top: 80px;
 }
 
-/* 래퍼 안의 버튼은 개별 포지션 해제 */
 .recycle .swiper-btn .swiper-button-prev,
 .recycle .swiper-btn .swiper-button-next {
     position: static;
+
+    width: 65px;
+    height: 65px;
+
+    flex-shrink: 0;
+
+    border-radius: 50%;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .15);
 }
 
+.recycle .swiper-btn .swiper-button-prev {
+    background: url('../img/icon-left.svg') center / cover no-repeat;
+}
+
+.recycle .swiper-btn .swiper-button-next {
+    background: url('../img/icon-right.svg') center / cover no-repeat;
+}
+
+.recycle .swiper-btn .swiper-button-prev::after,
+.recycle .swiper-btn .swiper-button-next::after {
+    display: none;
+}
 
 .revival {
     position: relative;
@@ -1243,109 +1250,11 @@ body {
     display: none;
 }
 
-@media screen and (max-width: 1870px) {
-    .recycle .inner {
-        overflow: hidden;
-    }
-
-    .recycle .recycleSwiper .swiper-wrapper {
-        position: relative;
-    }
-
-    .recycle .swiper-button-next,
-    .recycle .swiper-rtl .swiper-button-prev {
-        position: absolute;
-        right: calc(50% - 240px);
-    }
-
-    .recycle .swiper-rtl .swiper-button-next,
-    .recycle .swiper-button-prev {
-        position: absolute;
-        left: calc(50% - 240px);
-    }
-
-}
-
-@media screen and (max-width: 1790px) {
-    .recycle .recycleSwiper .swiper-wrapper {
-        position: relative;
-    }
-
-    .recycle .swiper-button-next,
-    .recycle .swiper-rtl .swiper-button-prev {
-        position: absolute;
-        right: calc(50% - 230px);
-    }
-
-    .recycle .swiper-rtl .swiper-button-next,
-    .recycle .swiper-button-prev {
-        position: absolute;
-        left: calc(50% - 230px);
-    }
-
-}
-
-@media screen and (max-width: 1660px) {
-    .recycle .recycleSwiper .swiper-wrapper {
-        position: relative;
-    }
-
-    .recycle .swiper-button-next,
-    .recycle .swiper-rtl .swiper-button-prev {
-        position: absolute;
-        right: calc(50% - 220px);
-    }
-
-    .recycle .swiper-rtl .swiper-button-next,
-    .recycle .swiper-button-prev {
-        position: absolute;
-        left: calc(50% - 220px);
-    }
-
-}
 
 @media screen and (max-width: 1645px) {
     .brand_info .inner .text_wrap .info-links {
         font-size: 19px;
     }
-}
-
-@media screen and (max-width: 1550px) {
-    .recycle .recycleSwiper .swiper-wrapper {
-        position: relative;
-    }
-
-    .recycle .swiper-button-next,
-    .recycle .swiper-rtl .swiper-button-prev {
-        position: absolute;
-        right: calc(50% - 205px);
-    }
-
-    .recycle .swiper-rtl .swiper-button-next,
-    .recycle .swiper-button-prev {
-        position: absolute;
-        left: calc(50% - 205px);
-    }
-
-}
-
-@media screen and (max-width: 1500px) {
-    .recycle .recycleSwiper .swiper-wrapper {
-        position: relative;
-    }
-
-    .recycle .swiper-button-next,
-    .recycle .swiper-rtl .swiper-button-prev {
-        position: absolute;
-        right: calc(50% - 200px);
-    }
-
-    .recycle .swiper-rtl .swiper-button-next,
-    .recycle .swiper-button-prev {
-        position: absolute;
-        left: calc(50% - 200px);
-    }
-
 }
 
 @media (min-width: 1461px) {
@@ -1367,8 +1276,7 @@ body {
     }
 
     .recycle .inner {
-        width: calc(100% - 30px);
-        padding-left: 15px;
+        margin: 80px auto;
     }
 
     .header .inner .nav.pc .gnb {
@@ -1576,6 +1484,11 @@ body {
         top: 0;
     }
 
+    .recycle .inner .title_wrap {
+        margin: 15px 0 0;
+        gap: 15px;
+    }
+
     .recycle .inner .title_wrap .text {
         font-size: 25px;
     }
@@ -1584,12 +1497,14 @@ body {
         font-size: 1.7vw;
     }
 
-    .recycle .swiper-slide.swiper-slide-next {
-        transform: scale(1.3);
+    .recycle .inner .recycleSwiper .swiper-slide {}
+
+    .recycle .swiper-slide.swiper-slide-next .content_wrap {
+        transform: scale(1.1);
     }
 
     .recycle .swiper-slide.swiper-slide-next+.swiper-slide.swiper-slide {
-        transform: scale(1);
+        transform: scale(.7);
     }
 
     .recycle .image_wrap {
@@ -1608,7 +1523,6 @@ body {
 
     .recycle .swiper-rtl .swiper-button-next,
     .recycle .swiper-button-prev {
-        position: absolute;
         left: calc(50% - 310px);
     }
 
@@ -1635,6 +1549,22 @@ body {
         justify-content: center;
         align-items: center;
         transition: transform 0.3s ease;
+        padding: 90px 0;
+        opacity: 1;
+    }
+
+    .recycle .recycleSwiper .swiper-slide.swiper-slide-active {
+        opacity: 0.5;
+        transform: scale(.7);
+    }
+
+    .recycle .swiper-slide.swiper-slide-next {
+        opacity: 1;
+        transform: scale(1.1);
+    }
+
+    .recycle .swiper-slide-next+.swiper-slide .content_wrap {
+        opacity: 0.5;
     }
 
     .recycle .content_wrap.red {
@@ -1661,11 +1591,15 @@ body {
     }
 
     .recycle .recycleSwiper .swiper-slide.swiper-slide-prev+.swiper-slide .image_wrap {
-        width: 70%;
+        width: 60%;
     }
 
     .recycle .recycleSwiper .swiper-slide.swiper-slide-prev+.swiper-slide .text_wrap {
         display: none;
+    }
+
+    .revival_header {
+        width: calc(100% - 30px);
     }
 
     .revival .inner .tab_menu {
@@ -1675,7 +1609,6 @@ body {
         display: inline-flex;
         white-space: nowrap;
         overflow-x: auto;
-        padding-left: 15px;
     }
 
     .revival .inner .tab_menu button {
@@ -1707,8 +1640,8 @@ body {
         display: flex;
     }
 
-    .revival .recycleSwiper {
-        padding-left: 15px;
+    .revivalSwiper {
+        width: calc(100% - 30px);
     }
 
     .revival .inner .recycleSwiper .swipper_wrapper {
@@ -1867,13 +1800,11 @@ body {
 
     .recycle .swiper-button-next,
     .recycle .swiper-rtl .swiper-button-prev {
-        position: absolute;
         right: calc(50% - 290px);
     }
 
     .recycle .swiper-rtl .swiper-button-next,
     .recycle .swiper-button-prev {
-        position: absolute;
         left: calc(50% - 290px);
     }
 
@@ -1890,13 +1821,11 @@ body {
 
     .recycle .swiper-button-next,
     .recycle .swiper-rtl .swiper-button-prev {
-        position: absolute;
         right: calc(50% - 260px);
     }
 
     .recycle .swiper-rtl .swiper-button-next,
     .recycle .swiper-button-prev {
-        position: absolute;
         left: calc(50% - 260px);
     }
 
@@ -1909,13 +1838,11 @@ body {
 
     .recycle .swiper-button-next,
     .recycle .swiper-rtl .swiper-button-prev {
-        position: absolute;
         right: calc(50% - 240px);
     }
 
     .recycle .swiper-rtl .swiper-button-next,
     .recycle .swiper-button-prev {
-        position: absolute;
         left: calc(50% - 240px);
     }
 
@@ -1932,13 +1859,11 @@ body {
 
     .recycle .swiper-button-next,
     .recycle .swiper-rtl .swiper-button-prev {
-        position: absolute;
         right: calc(50% - 200px);
     }
 
     .recycle .swiper-rtl .swiper-button-next,
     .recycle .swiper-button-prev {
-        position: absolute;
         left: calc(50% - 200px);
     }
 
@@ -2144,80 +2069,53 @@ body {
         padding: 200px 0;
     }
 
-    .recycle .inner {
-        padding-left: 0;
-        margin: 0 auto;
-    }
-
     .recycle .inner .recycleSwiper {
-        width: calc(100% - 30px);
-        margin-top: 0px;
-        padding: 20px 0;
+        padding: 30px 20px;
     }
 
-    .recycle .inner .recycleSwiper .swiper-wrapper .swiper-slide {
-        position: relative;
-        padding: 0;
+    .recycle .recycleSwiper .swiper-slide {
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
-    .recycle .swiper-slide.swiper-slide-next {
-        transform: scale(1.4);
+    .recycle .swiper-slide.swiper-slide.swiper-slide-active {
+        transform: scale(1.1);
+        opacity: 1;
     }
 
-    .recycle .inner .title h2::before {
-        width: 5px;
-        height: 5px;
-        left: 8px;
+    .recycle .swiper-slide.swiper-slide-next .content_wrap {
+        transform: scale(.8);
+        opacity: .5;
     }
 
-    .recycle .inner .title h2::after {
-        width: 5px;
-        height: 5px;
-        left: 28px;
+    .recycle .content_wrap {
+        width: 220px;
+        height: 250px;
+    }
+
+    .recycle .image_wrap {
+        width: 50%;
     }
 
     .recycle .text_wrap {
         padding-bottom: 0;
     }
 
-    .recycle .inner .title_wrap .text {
-        font-size: 16px;
-    }
-
     .recycle .text_wrap h3 {
-        font-size: 1.8vw;
+        font-size: 3vw;
         white-space: nowrap;
     }
 
     .recycle .text_wrap p {
-        font-size: 1.6vw;
+        font-size: 3vw;
     }
 
-    .recycle .image_wrap {
-        width: 60%;
+    .recycle .recycleSwiper .swiper-slide.swiper-slide-prev+.swiper-slide .text_wrap {
+        display: flex;
     }
-
-    .recycle .content_wrap {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
-
-    .recycle .content_wrap.red {
-        background: url('../img/recycle-shape-01.svg') center center / 100% no-repeat;
-        color: #fff;
-    }
-
-    .recycle .content_wrap.blue {
-        background: url('../img/recycle-shape-02.svg') center center / 100% no-repeat;
-    }
-
-    .recycle .content_wrap.yellow {
-        background: url('../img/recycle-shape-03.svg') center center / 100% no-repeat;
-    }
-
-    .recycle .content_wrap.green {
-        background: url('../img/recycle-shape-04.svg') center center / 100% no-repeat;
+    .recycle .recycleSwiper .swiper-slide.swiper-slide-next .text_wrap{
+        display: none;
     }
 
     .recycle .swiper-button-prev,
@@ -2226,15 +2124,11 @@ body {
         height: 35px;
     }
 
-    .recycle .swiper-rtl .swiper-button-next,
     .recycle .swiper-button-prev {
-        position: absolute;
         left: calc(50% - 170px);
     }
 
-    .recycle .swiper-button-next,
-    .recycle .swiper-rtl .swiper-button-prev {
-        position: absolute;
+    .recycle .swiper-button-next {
         right: calc(50% - 170px);
     }
 
@@ -2501,13 +2395,11 @@ body {
 
     .recycle .swiper-button-next,
     .recycle .swiper-rtl .swiper-button-prev {
-        position: absolute;
         right: calc(50% - 150px);
     }
 
     .recycle .swiper-rtl .swiper-button-next,
     .recycle .swiper-button-prev {
-        position: absolute;
         left: calc(50% - 150px);
     }
 
@@ -2529,13 +2421,11 @@ body {
 
     .recycle .swiper-button-next,
     .recycle .swiper-rtl .swiper-button-prev {
-        position: absolute;
         right: calc(50% - 140px);
     }
 
     .recycle .swiper-rtl .swiper-button-next,
     .recycle .swiper-button-prev {
-        position: absolute;
         left: calc(50% - 140px);
     }
 
@@ -2562,13 +2452,11 @@ body {
 
     .recycle .swiper-button-next,
     .recycle .swiper-rtl .swiper-button-prev {
-        position: absolute;
         right: calc(50% - 120px);
     }
 
     .recycle .swiper-rtl .swiper-button-next,
     .recycle .swiper-button-prev {
-        position: absolute;
         left: calc(50% - 120px);
     }
 
@@ -2591,13 +2479,11 @@ body {
 
     .recycle .swiper-button-next,
     .recycle .swiper-rtl .swiper-button-prev {
-        position: absolute;
         right: calc(50% - 110px);
     }
 
     .recycle .swiper-rtl .swiper-button-next,
     .recycle .swiper-button-prev {
-        position: absolute;
         left: calc(50% - 110px);
     }
 
@@ -2761,94 +2647,6 @@ body {
     .recycle .swiper-btn .swiper-button-next {
         width: 40px;
         height: 40px;
-    }
-}
-
-/* 1) 버튼 묶음 기준점 제공 */
-.recycle .inner {
-    position: relative;
-}
-
-.recycle .recycleSwiper {
-    position: relative;
-}
-
-/* 2) 버튼 래퍼를 절대배치로 한 번에 고정 */
-.recycle .swiper-btn {
-    position: absolute;
-    left: 50%;
-    bottom: clamp(15px, 54vh, 267px);
-    /* 반응형 하단 여백 */
-    transform: translateX(-50%);
-    display: flex;
-    align-items: center;
-    gap: clamp(28px, 75vw, 377px);
-    /* 버튼 사이 간격 */
-    z-index: 10;
-    pointer-events: none;
-    /* 클릭이 슬라이드로 새지 않게 */
-}
-
-/* 3) 래퍼 안 버튼은 "정적 위치"로 초기화 (기존 left/right 끊기) */
-.recycle .swiper-btn .swiper-button-prev,
-.recycle .swiper-btn .swiper-button-next {
-    position: static !important;
-    left: auto !important;
-    right: auto !important;
-    top: auto !important;
-    bottom: auto !important;
-    pointer-events: auto;
-    /* 실제 클릭 가능 */
-    width: clamp(36px, 5vw, 56px);
-    height: clamp(36px, 5vw, 56px);
-    border-radius: 999px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, .15);
-}
-
-/* 4) 아이콘 방향 맞추기(필요 시) */
-.recycle .swiper-btn .swiper-button-prev {
-    background: url('../img/icon-left.svg') center/cover no-repeat;
-}
-
-.recycle .swiper-btn .swiper-button-next {
-    background: url('../img/icon-right.svg') center/cover no-repeat;
-}
-
-/* 5) 기존에 전체에서 버튼 개별 위치 잡던 규칙 무력화 */
-.recycle .swiper-button-prev,
-.recycle .swiper-button-next {
-    /* 기존 파일의 left/right 계산값들보다 뒤에 오게 하거나, 더 구체적으로 덮어씌움 */
-    background-color: #fff;
-    /* (스타일 유지용) */
-    /* (스타일 유지용) */
-}
-
-/* 예: 태블릿은 좀 더 위로, 간격 좁게 */
-@media (max-width: 1900px) {
-    .recycle .swiper-btn {
-        bottom: clamp(16px, 54vh, 258px);
-        gap: clamp(20px, 82vw, 370px);
-    }
-}
-
-@media (max-width: 1050px) {
-    .recycle .swiper-btn {
-        bottom: clamp(16px, 143vh, 247px);
-        gap: clamp(20px, 86vw, 328px);
-    }
-}
-
-@media (max-width: 970px) {
-    .recycle .swiper-btn {
-        bottom: clamp(16px, 143vh, 232px);
-        gap: clamp(20px, 86vw, 287px);
-    }
-}
-
-/* 예: 모바일은 더 위로 붙이기 */
-@media (max-width: 760px) {
-    .recycle .swiper-btn {
-        display: none;
     }
 }
 
